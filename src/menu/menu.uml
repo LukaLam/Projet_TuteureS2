@@ -3,14 +3,17 @@
   <ID>JAVA</ID>
   <OriginalElement />
   <nodes>
-    <node x="0.0" y="0.0">menu.ChargementSauvegarde</node>
-    <node x="0.0" y="74.0">menu.menuBoutique</node>
-    <node x="0.0" y="222.0">menu.MenuPricipal</node>
-    <node x="0.0" y="148.0">menu.menuModeDeJeu</node>
+    <node x="123.0" y="148.0">sample.Main</node>
+    <node x="0.0" y="0.0">sample.Controller</node>
+    <node x="0.0" y="74.0">sample.Clavier</node>
+    <node x="0.0" y="222.0">sample.Son</node>
+    <node x="0.0" y="148.0">sample.Instru</node>
+    <node x="146.0" y="0.0">sample.Bouton</node>
+    <node x="129.0" y="74.0">sample.Menu</node>
   </nodes>
   <notes />
   <edges />
-  <settings layout="Hierarchic Group" zoom="1.0" x="0.0" y="0.0" />
+  <settings layout="Hierarchic Group" zoom="1.0" x="699.0" y="410.5" />
   <SelectedNodes />
   <Categories />
   <SCOPE>All</SCOPE>
