@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="0.0" y="237.0">elementGrille.collision</node>
+    <node x="206.25" y="158.0">elementGrille.Serpent</node>
+    <node x="256.0" y="237.0">elementGrille.Tete_Serpent</node>
+    <node x="11.0" y="158.0">elementGrille.Mur</node>
+    <node x="0.0" y="311.0">elementGrille.Grille</node>
+    <node x="314.25" y="158.0">elementGrille.Fruit</node>
+    <node x="198.5" y="0.0">elementGrille.Position</node>
+    <node x="112.0" y="237.0">elementGrille.Corps_Serpent</node>
+    <node x="185.0" y="79.0">elementGrille.ElementGrille</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="elementGrille.ElementGrille" target="elementGrille.Position">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="elementGrille.collision" target="elementGrille.Mur">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="elementGrille.Mur" target="elementGrille.ElementGrille">
+      <point x="0.0" y="-14.5" />
+      <point x="46.0" y="133.0" />
+      <point x="204.66666666666666" y="133.0" />
+      <point x="-39.33333333333334" y="14.5" />
+    </edge>
+    <edge source="elementGrille.Corps_Serpent" target="elementGrille.Serpent">
+      <point x="0.0" y="-14.5" />
+      <point x="174.0" y="212.0" />
+      <point x="228.25" y="212.0" />
+      <point x="-22.0" y="14.5" />
+    </edge>
+    <edge source="elementGrille.Tete_Serpent" target="elementGrille.Serpent">
+      <point x="0.0" y="-14.5" />
+      <point x="314.0" y="212.0" />
+      <point x="272.25" y="212.0" />
+      <point x="22.0" y="14.5" />
+    </edge>
+    <edge source="elementGrille.Fruit" target="elementGrille.ElementGrille">
+      <point x="0.0" y="-14.5" />
+      <point x="350.25" y="133.0" />
+      <point x="283.33333333333337" y="133.0" />
+      <point x="39.33333333333337" y="14.5" />
+    </edge>
+    <edge source="elementGrille.Serpent" target="elementGrille.ElementGrille">
+      <point x="0.0" y="-14.5" />
+      <point x="250.25" y="133.0" />
+      <point x="244.0" y="133.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="0.0" y="0.0" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
