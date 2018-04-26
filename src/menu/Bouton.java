@@ -74,6 +74,6 @@ public class Bouton extends Parent {
         fond_touche.setFill(Color.WHITE);
         this.setTranslateY(positionY);
         instru.note_off(note);
-
+//explication later
     }
 }
