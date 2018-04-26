@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class ArgentJoueur implements Serializable {
     private int argent;
+    private boolean test;
 
     public ArgentJoueur(){
     }
@@ -14,6 +15,7 @@ public class ArgentJoueur implements Serializable {
 
     public boolean argentSuffisant(int somme){
             //Verifie si l'argent du joueur est suffisante pour acheter
+        return test;
     }
 
     public int getArgent() {
