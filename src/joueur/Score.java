@@ -7,6 +7,7 @@ public class Score implements Serializable {
     private int MeilleureScore;
 
     public Score(){
+        ScoreActuel = 0;
     }
 
     public Score(int scoreActuel) {
@@ -27,4 +28,11 @@ public class Score implements Serializable {
         return MeilleureScore;
     }
 
+    public void setScoreActuel(int scoreActuel) {
+        ScoreActuel = scoreActuel;
+    }
+
+    public void setMeilleureScore(int meilleureScore) {
+        MeilleureScore = meilleureScore;
+    }
 }

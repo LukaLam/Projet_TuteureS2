@@ -19,4 +19,12 @@ public class Position {
     public int getAxeY() {
         return axeY;
     }
+
+    public void setAxeX(int axeX) {
+        this.axeX = axeX;
+    }
+
+    public void setAxeY(int axeY) {
+        this.axeY = axeY;
+    }
 }

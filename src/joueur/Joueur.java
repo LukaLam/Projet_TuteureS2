@@ -14,7 +14,7 @@ public class Joueur implements Serializable {
 
     public Joueur(ArgentJoueur argent, List<Achat> objetAchete) {
         this.argent = argent;
-        this.scoreJoueur = 0;
+        this.scoreJoueur.setScoreActuel(0);
         this.objetAchete = objetAchete;
     }
 
@@ -34,5 +34,17 @@ public class Joueur implements Serializable {
 
     public List<Achat> getObjetAchete() {
         return objetAchete;
+    }
+
+    public void setArgent(ArgentJoueur argent) {
+        this.argent = argent;
+    }
+
+    public void setScoreJoueur(Score scoreJoueur) {
+        this.scoreJoueur = scoreJoueur;
+    }
+
+    public void setObjetAchete(List<Achat> objetAchete) {
+        this.objetAchete = objetAchete;
     }
 }

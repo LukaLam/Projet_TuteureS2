@@ -4,7 +4,10 @@ public class ModelSnake {
     // Ce qui se passe sur le snake lorsque l'on joue au jeux
     int xVelocite=0;
     int yVelocite=0;
-//first commit thomas
+    boolean etatPartit;
+
+
+
     public int getxVelocite() {
         return xVelocite;
     }
@@ -37,5 +40,9 @@ public class ModelSnake {
     public void goDroite(){
         xVelocite=1;
         yVelocite=0;
+    }
+    public boolean perdu(){
+        etatPartit=false;
+        return etatPartit;
     }
 }

@@ -1,3 +1,6 @@
 public class Main {
-    // Est ce que j'ai besoin de mettre un commentaire ici ? XD
+    public static void main (String[] args){
+      //Code du main
+        // Donc juste les objets a mon avis pas grand chose, c'est un runner
+    }
 }
