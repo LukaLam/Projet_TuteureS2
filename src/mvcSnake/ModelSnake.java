@@ -4,7 +4,7 @@ public class ModelSnake {
     // Ce qui se passe sur le snake lorsque l'on joue au jeux
     int xVelocite=0;
     int yVelocite=0;
-
+//first commit thomas
     public int getxVelocite() {
         return xVelocite;
     }
