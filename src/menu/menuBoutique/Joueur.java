@@ -2,8 +2,9 @@ package menu.menuBoutique;
 import java.util.Arrays;
 import java.util.List;
 
+//J'ai créé Player sinon il m'utilise la classe Joueur du dossier Joueur
 public class Joueur {
-    protected String pseudo;
+    /*protected String pseudo;
     protected int argentTot;
     protected int meilleurScore;
     protected List<String> inventaire;
@@ -34,5 +35,5 @@ public class Joueur {
 
     public boolean contientObjet(String objet){
         return inventaire.contains(objet);
-    }
+    }*/
 }

@@ -27,7 +27,7 @@ import java.util.Optional;
 public class BoutiqueRunner extends Application {
 
     //TEST
-    Joueur p1 = new Joueur(1000);
+    Player p1 = new Player(1000);
 
     Text texteArgentTot ;
 
@@ -71,7 +71,7 @@ public class BoutiqueRunner extends Application {
         });
 
         texteArgentTot = new Text();
-        texteArgentTot.setText("Argent : " + p1.getArgentTot() + " pièces");
+        texteArgentTot.setText("Argent : " + p1.getArgent() + " pièces");
 
         //Ajout à la VBox
         fenBoutique.getChildren().add(annonceBoutique);
@@ -91,12 +91,12 @@ public class BoutiqueRunner extends Application {
 
         //LISTE DECORS
         ArrayList<Decors> listeDecors = new ArrayList<Decors>();
-        listeDecors.add(new Decors("Décor 1", "img/decor.png", "img/decorGrand.png","Description", 100));
-        listeDecors.add(new Decors("Décor 2", "img/decor.png", "img/decorGrand.png","Description", 100));
-        listeDecors.add(new Decors("Décor 3", "img/decor.png", "img/decorGrand.png","Description", 100));
-        listeDecors.add(new Decors("Décor 4", "img/decor.png", "img/decorGrand.png","Description", 100));
-        listeDecors.add(new Decors("Décor 5", "img/decor.png", "img/decorGrand.png","Description", 100));
-        listeDecors.add(new Decors("Décor 6", "img/decor.png", "img/decorGrand.png","Description", 100));
+        listeDecors.add(new Decors("Décor 1", "menu/menuBoutique/img/decor.png", "menu/menuBoutique/img/decorGrand.png","Description", 100));
+        listeDecors.add(new Decors("Décor 2", "menu/menuBoutique/img/decor.png", "menu/menuBoutique/img/decorGrand.png","Description", 100));
+        listeDecors.add(new Decors("Décor 3", "menu/menuBoutique/img/decor.png", "menu/menuBoutique/img/decorGrand.png","Description", 100));
+        listeDecors.add(new Decors("Décor 4", "menu/menuBoutique/img/decor.png", "menu/menuBoutique/img/decorGrand.png","Description", 100));
+        listeDecors.add(new Decors("Décor 5", "menu/menuBoutique/img/decor.png", "menu/menuBoutique/img/decorGrand.png","Description", 100));
+        listeDecors.add(new Decors("Décor 6", "menu/menuBoutique/img/decor.png", "menu/menuBoutique/img/decorGrand.png","Description", 100));
 
 
         //FEN ROOT
@@ -111,7 +111,7 @@ public class BoutiqueRunner extends Application {
 
 
         Text annonceBoutDecor = new Text("Bienvenue dans la boutique de décors.\n Cliquez sur l'image pour l'agrandir.");
-        Text texteArgentDecor = new Text("Argent : " + p1.getArgentTot() + " pièces");
+        Text texteArgentDecor = new Text("Argent : " + p1.getArgent() + " pièces");
         annonceBoutDecor.setTextAlignment(TextAlignment.CENTER);
         texteArgentDecor.setTextAlignment(TextAlignment.CENTER);
 
@@ -137,15 +137,14 @@ public class BoutiqueRunner extends Application {
                     Optional<ButtonType> choix = achatAlerte.showAndWait();
 
                     if(choix.get() == ButtonType.OK){
-                        if (p1.getArgentTot() >= elementDecors.getPrix() || !p1.contientObjet(elementDecors.getTitre())){
-                            p1.setArgentTot(p1.getArgentTot() - elementDecors.getPrix());
-                            texteArgentTot.setText("Argent : " + p1.getArgentTot() + " pièces");
+                        if (p1.getArgent() >= elementDecors.getPrix() && !p1.possedeObjet(elementDecors)){
 
                             Alert achatEffectue = new Alert(Alert.AlertType.INFORMATION);
                             achatEffectue.setTitle("Achat effectué");
                             achatEffectue.setHeaderText(null);
                             achatEffectue.setContentText("Merci pour votre achat !");
-                            p1.ajouterAInventaire(elementDecors.getTitre());
+                            p1.acheterObjet(elementDecors);
+                            texteArgentTot.setText("Argent : " + p1.getArgent() + " pièces");
 
                             decorBox.getChildren().remove(butAcheter);
                             decorBox.getChildren().add(new Text("Acheté !"));
@@ -163,7 +162,7 @@ public class BoutiqueRunner extends Application {
             });
 
             decorBox.getChildren().add(new Text(elementDecors.getTitre()));
-            ImageView imageDecorView = new ImageView(new Image(elementDecors.getCheminImage()));
+            ImageView imageDecorView = new ImageView(new Image(elementDecors.getChemin()));
             decorBox.getChildren().add(imageDecorView);
             imageDecorView.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
@@ -172,7 +171,7 @@ public class BoutiqueRunner extends Application {
                     Group rootDecorGrand = new Group();
                     Scene sceneDecorGrand = new Scene(rootDecorGrand, 800,800);
                     fenDecorGrand.setTitle(elementDecors.getTitre());
-                    rootDecorGrand.getChildren().add(new ImageView(new Image(elementDecors.getCheminImageGrand())));
+                    rootDecorGrand.getChildren().add(new ImageView(new Image(elementDecors.getCheminGrand())));
                     fenDecorGrand.setScene(sceneDecorGrand);
                     fenDecorGrand.showAndWait();
 
@@ -196,7 +195,6 @@ public class BoutiqueRunner extends Application {
                 ligne++;
             }
         }
-
 
 
         //Ajout final
