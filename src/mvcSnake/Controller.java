@@ -1,5 +1,4 @@
-package mvcSnake;
+package sample;
 
 public class Controller {
-    // Les controles du joueur sur le snake
 }
