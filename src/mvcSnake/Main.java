@@ -1,4 +1,4 @@
-package sample;
+package mvcSnake;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -18,28 +18,28 @@ import javafx.util.Duration;
 public class Main extends Application {
 
 
-    public static final int BLOCK_SIZE = 40;
-    public static final int APP_W = 20 * BLOCK_SIZE;
-    public static final int APP_H = 15 * BLOCK_SIZE;
+    public static final int TailleBloc = 40;
+    public static final int Largeur = 20 * TailleBloc;
+    public static final int Hauteur = 15 * TailleBloc;
 
     private Direction direction = Direction.RIGHT;
-    private boolean moved = false;
+    private boolean Deplacement = false;
     private boolean running = false;
 
     private Timeline timeline = new Timeline();
     private ObservableList<Node> snake;
 
     private Parent createContent() {
-        Pane root = new Pane();
-        root.setPrefSize(APP_W,APP_H);
+        Pane main = new Pane();
+        main.setPrefSize(Largeur, Hauteur);
 
         Group snakeBody = new Group();
         snake = snakeBody.getChildren();
 
-        Rectangle food = new Rectangle(BLOCK_SIZE, BLOCK_SIZE);
-        food.setFill(Color.BLUE);
-        food.setTranslateX((int)(Math.random() * APP_W-BLOCK_SIZE) / BLOCK_SIZE * BLOCK_SIZE); // les gens le : -Block_size permet de rester dans la grille si jamais
-        food.setTranslateX((int)(Math.random() * APP_H-BLOCK_SIZE) / BLOCK_SIZE * BLOCK_SIZE);
+        Rectangle fruit = new Rectangle(TailleBloc, TailleBloc);
+        fruit.setFill(Color.BLUE);
+        fruit.setTranslateX((int)(Math.random() * Largeur - TailleBloc) / TailleBloc * TailleBloc); // les gens le : -Block_size permet de rester dans la grille si jamais
+        fruit.setTranslateX((int)(Math.random() * Hauteur - TailleBloc) / TailleBloc * TailleBloc);
 
         KeyFrame frame = new KeyFrame(Duration.seconds(0.1), event -> { // Si on baisse le 0.1, cela augmente la difficulté  vu que le snake ira plus vite ( oué je sais c'est logique xD )
         if(!running){
@@ -54,22 +54,22 @@ public class Main extends Application {
             switch(direction){
                 case UP:
                     tail.setTranslateX(snake.get(0).getTranslateX());
-                    tail.setTranslateY(snake.get(0).getTranslateY() - BLOCK_SIZE);
+                    tail.setTranslateY(snake.get(0).getTranslateY() - TailleBloc);
                     break;
                 case DOWN :
                     tail.setTranslateX(snake.get(0).getTranslateX());
-                    tail.setTranslateY(snake.get(0).getTranslateY() + BLOCK_SIZE);
+                    tail.setTranslateY(snake.get(0).getTranslateY() + TailleBloc);
                     break;
                 case LEFT:
-                    tail.setTranslateX(snake.get(0).getTranslateX()- BLOCK_SIZE);
+                    tail.setTranslateX(snake.get(0).getTranslateX()- TailleBloc);
                     tail.setTranslateY(snake.get(0).getTranslateY());
                     break;
                 case RIGHT :
-                    tail.setTranslateX(snake.get(0).getTranslateX()+ BLOCK_SIZE);
+                    tail.setTranslateX(snake.get(0).getTranslateX()+ TailleBloc);
                     tail.setTranslateY(snake.get(0).getTranslateY());
                     break;
             }
-            moved = true;
+            Deplacement = true;
             if(toRemove==true){
                 snake.add(0,tail);
             }
@@ -80,14 +80,14 @@ public class Main extends Application {
                     break;
                 }
             }
-            if(tail.getTranslateX()<0 || tail.getTranslateX() >= APP_W || tail.getTranslateY() <0 || tail.getTranslateY() >= APP_H){
+            if(tail.getTranslateX()<0 || tail.getTranslateX() >= Largeur || tail.getTranslateY() <0 || tail.getTranslateY() >= Hauteur){
                 restartGame();
             }
-            if(tail.getTranslateX()==food.getTranslateX() && tail.getTranslateY() == food.getTranslateY()){
-                food.setTranslateX((int)(Math.random() * (APP_W-BLOCK_SIZE)) / BLOCK_SIZE * BLOCK_SIZE);
-                food.setTranslateY((int)(Math.random() * (APP_H-BLOCK_SIZE)) / BLOCK_SIZE * BLOCK_SIZE);
+            if(tail.getTranslateX()==fruit.getTranslateX() && tail.getTranslateY() == fruit.getTranslateY()){
+                fruit.setTranslateX((int)(Math.random() * (Largeur - TailleBloc)) / TailleBloc * TailleBloc);
+                fruit.setTranslateY((int)(Math.random() * (Hauteur - TailleBloc)) / TailleBloc * TailleBloc);
 
-                Rectangle rect = new Rectangle(BLOCK_SIZE,BLOCK_SIZE);
+                Rectangle rect = new Rectangle(TailleBloc, TailleBloc);
                 rect.setTranslateX(tailX);
                 rect.setTranslateY(tailY);
 
@@ -98,8 +98,8 @@ public class Main extends Application {
         timeline.getKeyFrames().add(frame);
         timeline.setCycleCount(Timeline.INDEFINITE);
 
-        root.getChildren().addAll(food,snakeBody);
-        return root;
+        main.getChildren().addAll(fruit,snakeBody);
+        return main;
     }
     private void restartGame(){
         stopGame();
@@ -107,8 +107,8 @@ public class Main extends Application {
     }
     private void startGame(){
         direction= Direction.RIGHT;
-        Rectangle head = new Rectangle(BLOCK_SIZE, BLOCK_SIZE);
-        snake.add(head);
+        Rectangle teteSerpent = new Rectangle(TailleBloc, TailleBloc);
+        snake.add(teteSerpent);
         timeline.play();
         running = true;
     }
@@ -120,13 +120,13 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("mvcSnake.fxml"));
         Scene scene = new Scene(createContent());
         scene.setOnKeyPressed(event -> {
-            if(moved == false){
+            if(Deplacement == false){
                 return;
             }
-            if(moved==true){
+            if(Deplacement ==true){
                 switch(event.getCode()){
                     case Z :
                         if(direction != Direction.DOWN){
@@ -150,9 +150,9 @@ public class Main extends Application {
                         break;
                 }
             }
-            moved = false;
+            Deplacement = false;
         });
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("Snake projet tuteuré s2 !");
         primaryStage.setScene(scene);
         primaryStage.show();
         startGame();

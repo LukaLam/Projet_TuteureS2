@@ -1,7 +1,7 @@
-package sample;
+package mvcSnake;
 
 
-    public enum Direction{
+public enum Direction{
         UP,DOWN,LEFT,RIGHT;
     }
 
