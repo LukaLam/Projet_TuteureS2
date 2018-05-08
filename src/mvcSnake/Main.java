@@ -120,6 +120,7 @@ public class Main extends Application {
         timeline.getKeyFrames().add(frame);
         timeline.setCycleCount(Timeline.INDEFINITE);
 
+        resumeButton.setVisible(false);
         root.getChildren().addAll(food,snakeBody,resumeButton);
         return root;
     }
