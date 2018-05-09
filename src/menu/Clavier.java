@@ -1,4 +1,4 @@
-package sample;
+package mvcSnake;
 
 import javafx.scene.Node;
 import javafx.scene.effect.Light;

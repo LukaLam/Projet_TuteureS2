@@ -1,4 +1,4 @@
-package sample;
+package mvcSnake;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sound.midi.MidiSystem;

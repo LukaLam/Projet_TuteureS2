@@ -1,4 +1,4 @@
-package sample;
+package mvcSnake;
 
 import javafx.event.EventHandler;
 import javafx.scene.Parent;

@@ -1,4 +1,4 @@
-package sample;
+package mvcSnake;
 
 import javafx.application.Application;
 import javafx.scene.Group;

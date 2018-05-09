@@ -1,4 +1,4 @@
-package sample;
+package mvcSnake;
 
 import javafx.scene.effect.Reflection;
 import javafx.scene.paint.Color;

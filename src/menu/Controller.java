@@ -1,4 +1,4 @@
-package sample;
+package mvcSnake;
 
 public class Controller {
 }

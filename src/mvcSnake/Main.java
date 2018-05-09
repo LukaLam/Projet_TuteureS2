@@ -4,8 +4,6 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -23,9 +21,9 @@ import mvcSnake.Direction;
 public class Main extends Application {
 
 
-    public static final int BLOCK_SIZE = 40;
-    public static final int APP_W = 20 * BLOCK_SIZE;
-    public static final int APP_H = 15 * BLOCK_SIZE;
+    public static final int Taille_Bloc = 40;
+    public static final int Largeur = 20 * Taille_Bloc;
+    public static final int Hauteur = 15 * Taille_Bloc;
 
     private Direction direction = Direction.RIGHT;
     private boolean moved = false;
@@ -38,66 +36,87 @@ public class Main extends Application {
 
     private Timeline timeline = new Timeline();
     private ObservableList<Node> snake;
+    private Joueur joueur = new Joueur(200,0,0);
+    private int scoreTemporaire=0;
 
     private Parent createContent() {
         Pane root = new Pane();
-        root.setPrefSize(APP_W,APP_H);
+        root.setPrefSize(Largeur, Hauteur);
 
         Group snakeBody = new Group();
         snake = snakeBody.getChildren();
 
-        Rectangle food = new Rectangle(BLOCK_SIZE, BLOCK_SIZE);
-        food.setFill(Color.BLUE);
-        food.setTranslateX((int)(Math.random() * APP_W-BLOCK_SIZE) / BLOCK_SIZE * BLOCK_SIZE); // les gens le : -Block_size permet de rester dans la grille si jamais
-        food.setTranslateX((int)(Math.random() * APP_H-BLOCK_SIZE) / BLOCK_SIZE * BLOCK_SIZE);
+        Rectangle fruit = new Rectangle(Taille_Bloc, Taille_Bloc);
+        fruit.setFill(Color.BLUE);
+        fruit.setTranslateX((int)(Math.random() * Largeur - Taille_Bloc) / Taille_Bloc * Taille_Bloc); // les gens le : -Block_size permet de rester dans la grille si jamais
+        fruit.setTranslateX((int)(Math.random() * Hauteur - Taille_Bloc) / Taille_Bloc * Taille_Bloc);
 
         KeyFrame frame = new KeyFrame(Duration.seconds(0.1), event -> { // Si on baisse le 0.1, cela augmente la difficulté  vu que le snake ira plus vite ( oué je sais c'est logique xD )
         if(!running){
             return;
         }
         boolean toRemove = snake.size()>1;
-        Node tail = toRemove ? snake.remove(snake.size()-1) : snake.get(0); // regarder la synthaxe d'une variable ternaire sur internet puisque c'est chiant a expliquer
+        Node QueuSnake = toRemove ? snake.remove(snake.size()-1) : snake.get(0); // regarder la synthaxe d'une condition ternaire sur internet puisque c'est chiant a expliquer
 
-            double tailX = tail.getTranslateX();
-            double tailY = tail.getTranslateY();
+            double tailX = QueuSnake.getTranslateX();
+            double tailY = QueuSnake.getTranslateY();
 
             switch(direction){
                 case UP:
-                    tail.setTranslateX(snake.get(0).getTranslateX());
-                    tail.setTranslateY(snake.get(0).getTranslateY() - BLOCK_SIZE);
+                    QueuSnake.setTranslateX(snake.get(0).getTranslateX());
+                    QueuSnake.setTranslateY(snake.get(0).getTranslateY() - Taille_Bloc);
                     break;
                 case DOWN :
-                    tail.setTranslateX(snake.get(0).getTranslateX());
-                    tail.setTranslateY(snake.get(0).getTranslateY() + BLOCK_SIZE);
+                    QueuSnake.setTranslateX(snake.get(0).getTranslateX());
+                    QueuSnake.setTranslateY(snake.get(0).getTranslateY() + Taille_Bloc);
                     break;
                 case LEFT:
-                    tail.setTranslateX(snake.get(0).getTranslateX()- BLOCK_SIZE);
-                    tail.setTranslateY(snake.get(0).getTranslateY());
+                    QueuSnake.setTranslateX(snake.get(0).getTranslateX()- Taille_Bloc);
+                    QueuSnake.setTranslateY(snake.get(0).getTranslateY());
                     break;
                 case RIGHT :
-                    tail.setTranslateX(snake.get(0).getTranslateX()+ BLOCK_SIZE);
-                    tail.setTranslateY(snake.get(0).getTranslateY());
+                    QueuSnake.setTranslateX(snake.get(0).getTranslateX()+ Taille_Bloc);
+                    QueuSnake.setTranslateY(snake.get(0).getTranslateY());
                     break;
             }
             moved = true;
             if(toRemove==true){
-                snake.add(0,tail);
+                snake.add(0,QueuSnake);
             }
             //collision
             for(Node rect : snake){
-                if(rect != tail && tail.getTranslateX() == rect.getTranslateX() && tail.getTranslateY() == rect.getTranslateY()){
+                if(rect != QueuSnake && QueuSnake.getTranslateX() == rect.getTranslateX() && QueuSnake.getTranslateY() == rect.getTranslateY()){
+                    joueur.setScoreJoueur(scoreTemporaire);
+                    if (joueur.getMeilleureScore() < scoreTemporaire){
+                        joueur.setMeilleureScore(scoreTemporaire);
+                    }
+
+                    System.out.println(scoreTemporaire);
+                    System.out.println(joueur.getMeilleureScore());
+                    scoreTemporaire=0;
                     restartGame();
                     break;
                 }
             }
-            if(tail.getTranslateX()<0 || tail.getTranslateX() >= APP_W || tail.getTranslateY() <0 || tail.getTranslateY() >= APP_H){
+            if(QueuSnake.getTranslateX()<0 || QueuSnake.getTranslateX() >= Largeur || QueuSnake.getTranslateY() <0 || QueuSnake.getTranslateY() >= Hauteur){
+                //Tu peux reprendre le score temporaire ici dans ton game over
+                joueur.setScoreJoueur(scoreTemporaire);
+                if (joueur.getMeilleureScore() < scoreTemporaire){
+                    joueur.setMeilleureScore(scoreTemporaire);
+                }
+                System.out.println(scoreTemporaire);
+                System.out.println(joueur.getMeilleureScore());
+                scoreTemporaire=0;
                 restartGame();
             }
-            if(tail.getTranslateX()==food.getTranslateX() && tail.getTranslateY() == food.getTranslateY()){
-                food.setTranslateX((int)(Math.random() * (APP_W-BLOCK_SIZE)) / BLOCK_SIZE * BLOCK_SIZE);
-                food.setTranslateY((int)(Math.random() * (APP_H-BLOCK_SIZE)) / BLOCK_SIZE * BLOCK_SIZE);
+            if(QueuSnake.getTranslateX()==fruit.getTranslateX() && QueuSnake.getTranslateY() == fruit.getTranslateY()){
+                fruit.setTranslateX((int)(Math.random() * (Largeur - Taille_Bloc)) / Taille_Bloc * Taille_Bloc);
+                fruit.setTranslateY((int)(Math.random() * (Hauteur - Taille_Bloc)) / Taille_Bloc * Taille_Bloc);
 
-                Rectangle rect = new Rectangle(BLOCK_SIZE,BLOCK_SIZE);
+                Rectangle rect = new Rectangle(Taille_Bloc, Taille_Bloc);
+                //J'ajoute le score ici
+                scoreTemporaire+=100;
+
                 rect.setTranslateX(tailX);
                 rect.setTranslateY(tailY);
 
@@ -108,20 +127,17 @@ public class Main extends Application {
         resumeButton = new Button();
         resumeButton.setText("Resume");
         resumeButton.setLayoutX(370);
-        resumeButton.setLayoutY(APP_H/2);
-        resumeButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                timeline.play();
-                resumeButton.setVisible(false);
-            }
+        resumeButton.setLayoutY(Hauteur /2);
+        resumeButton.setOnAction(event -> {
+            timeline.play();
+            resumeButton.setVisible(false);
         });
 
         timeline.getKeyFrames().add(frame);
         timeline.setCycleCount(Timeline.INDEFINITE);
 
         resumeButton.setVisible(false);
-        root.getChildren().addAll(food,snakeBody,resumeButton);
+        root.getChildren().addAll(fruit,snakeBody,resumeButton);
         return root;
     }
     private void restartGame(){
@@ -130,7 +146,7 @@ public class Main extends Application {
     }
     private void startGame(){
         direction= Direction.RIGHT;
-        Rectangle head = new Rectangle(BLOCK_SIZE, BLOCK_SIZE);
+        Rectangle head = new Rectangle(Taille_Bloc, Taille_Bloc);
         snake.add(head);
         timeline.play();
         running = true;

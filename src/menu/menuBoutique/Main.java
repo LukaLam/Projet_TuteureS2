@@ -76,12 +76,12 @@ public class Main extends Application {
 
         //LISTE DECORS
         ArrayList<Decors> listeDecors = new ArrayList<Decors>();
-        listeDecors.add(new Decors("Décor 1", "sample/img/decor.png", "sample/img/decorGrand.png","Description", 100));
-        listeDecors.add(new Decors("Décor 2", "sample/img/decor.png", "sample/img/decorGrand.png","Description", 100));
-        listeDecors.add(new Decors("Décor 3", "sample/img/decor.png", "sample/img/decorGrand.png","Description", 100));
-        listeDecors.add(new Decors("Décor 4", "sample/img/decor.png", "sample/img/decorGrand.png","Description", 100));
-        listeDecors.add(new Decors("Décor 5", "sample/img/decor.png", "sample/img/decorGrand.png","Description", 100));
-        listeDecors.add(new Decors("Décor 6", "sample/img/decor.png", "sample/img/decorGrand.png","Description", 100));
+        listeDecors.add(new Decors("Décor 1", "mvcSnake/img/decor.png", "mvcSnake/img/decorGrand.png","Description", 100));
+        listeDecors.add(new Decors("Décor 2", "mvcSnake/img/decor.png", "mvcSnake/img/decorGrand.png","Description", 100));
+        listeDecors.add(new Decors("Décor 3", "mvcSnake/img/decor.png", "mvcSnake/img/decorGrand.png","Description", 100));
+        listeDecors.add(new Decors("Décor 4", "mvcSnake/img/decor.png", "mvcSnake/img/decorGrand.png","Description", 100));
+        listeDecors.add(new Decors("Décor 5", "mvcSnake/img/decor.png", "mvcSnake/img/decorGrand.png","Description", 100));
+        listeDecors.add(new Decors("Décor 6", "mvcSnake/img/decor.png", "mvcSnake/img/decorGrand.png","Description", 100));
 
 
         //FEN ROOT
