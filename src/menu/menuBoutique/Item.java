@@ -1,7 +1,5 @@
 package menu.menuBoutique;
 
-import java.util.Objects;
-
 abstract class Item {
     protected String titre;
     protected String chemin;

@@ -1,4 +1,4 @@
-package mvcSnake;
+package menu;
 
 import javafx.scene.Parent;
 

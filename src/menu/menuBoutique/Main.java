@@ -1,7 +1,5 @@
 package menu.menuBoutique;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -11,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -76,12 +73,12 @@ public class Main extends Application {
 
         //LISTE DECORS
         ArrayList<Decors> listeDecors = new ArrayList<Decors>();
-        listeDecors.add(new Decors("Décor 1", "mvcSnake/img/decor.png", "mvcSnake/img/decorGrand.png","Description", 100));
-        listeDecors.add(new Decors("Décor 2", "mvcSnake/img/decor.png", "mvcSnake/img/decorGrand.png","Description", 100));
-        listeDecors.add(new Decors("Décor 3", "mvcSnake/img/decor.png", "mvcSnake/img/decorGrand.png","Description", 100));
-        listeDecors.add(new Decors("Décor 4", "mvcSnake/img/decor.png", "mvcSnake/img/decorGrand.png","Description", 100));
-        listeDecors.add(new Decors("Décor 5", "mvcSnake/img/decor.png", "mvcSnake/img/decorGrand.png","Description", 100));
-        listeDecors.add(new Decors("Décor 6", "mvcSnake/img/decor.png", "mvcSnake/img/decorGrand.png","Description", 100));
+        listeDecors.add(new Decors("Décor 1", "sample/img/decor.png", "sample/img/decorGrand.png","Description", 100));
+        listeDecors.add(new Decors("Décor 2", "sample/img/decor.png", "sample/img/decorGrand.png","Description", 100));
+        listeDecors.add(new Decors("Décor 3", "sample/img/decor.png", "sample/img/decorGrand.png","Description", 100));
+        listeDecors.add(new Decors("Décor 4", "sample/img/decor.png", "sample/img/decorGrand.png","Description", 100));
+        listeDecors.add(new Decors("Décor 5", "sample/img/decor.png", "sample/img/decorGrand.png","Description", 100));
+        listeDecors.add(new Decors("Décor 6", "sample/img/decor.png", "sample/img/decorGrand.png","Description", 100));
 
 
         //FEN ROOT

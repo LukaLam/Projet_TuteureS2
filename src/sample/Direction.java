@@ -1,4 +1,4 @@
-package mvcSnake;
+package sample;
 
 
 public enum Direction{

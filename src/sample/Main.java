@@ -5,21 +5,16 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.*;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import mvcSnake.Direction;
 
 
 public class Main extends Application {
-
 
     public static final int Taille_Bloc = 40;
     public static final int Largeur = 20 * Taille_Bloc;
@@ -38,6 +33,11 @@ public class Main extends Application {
     private ObservableList<Node> snake;
     private Joueur joueur = new Joueur(200,0,0);
     private int scoreTemporaire=0;
+    private Fruit fruitEnum;
+
+
+
+
 
     private Parent createContent() {
         Pane root = new Pane();
@@ -46,8 +46,22 @@ public class Main extends Application {
         Group snakeBody = new Group();
         snake = snakeBody.getChildren();
 
-        Rectangle fruit = new Rectangle(Taille_Bloc, Taille_Bloc);
-        fruit.setFill(Color.BLUE);
+
+        Rectangle fruit = new Rectangle(
+               Taille_Bloc, Taille_Bloc
+        );
+        fruitEnum = fruitEnum.getRandomFruit();
+        fruit.setArcWidth(20);
+        fruit.setArcHeight(20);
+        fruit.setFill(new ImagePattern(fruitEnum.getImageFruit()));
+
+
+      /*  Rectangle fruit = new Rectangle(Taille_Bloc, Taille_Bloc);*/
+
+
+
+
+    //    fruit.setFill(fruitEnum.getCouleurFruit());
         fruit.setTranslateX((int)(Math.random() * Largeur - Taille_Bloc) / Taille_Bloc * Taille_Bloc); // les gens le : -Block_size permet de rester dans la grille si jamais
         fruit.setTranslateX((int)(Math.random() * Hauteur - Taille_Bloc) / Taille_Bloc * Taille_Bloc);
 
@@ -115,7 +129,12 @@ public class Main extends Application {
 
                 Rectangle rect = new Rectangle(Taille_Bloc, Taille_Bloc);
                 //J'ajoute le score ici
-                scoreTemporaire+=100;
+                scoreTemporaire+=fruitEnum.getValeurFruit();
+                fruitEnum = fruitEnum.getRandomFruit();
+
+                fruit.setFill(new ImagePattern(fruitEnum.getImageFruit()));
+
+                joueur.ajoutArgent(fruitEnum.getValeurFruit());
 
                 rect.setTranslateX(tailX);
                 rect.setTranslateY(tailY);
@@ -140,6 +159,9 @@ public class Main extends Application {
         root.getChildren().addAll(fruit,snakeBody,resumeButton);
         return root;
     }
+
+
+
     private void restartGame(){
         stopGame();
         startGame();
@@ -228,7 +250,6 @@ public class Main extends Application {
         primaryStage.show();
         startGame();
     }
-
 
     public static void main(String[] args) {
         launch(args);

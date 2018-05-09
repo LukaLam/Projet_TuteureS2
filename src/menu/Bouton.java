@@ -1,9 +1,7 @@
-package mvcSnake;
+package menu;
 
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
-import javafx.scene.effect.Light;
-import javafx.scene.effect.Lighting;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
