@@ -9,6 +9,7 @@ import javafx.scene.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -115,7 +116,7 @@ public class Main extends Application {
 
                     System.out.println(scoreTemporaire);
                     System.out.println(joueur.getMeilleureScore());
-                    scoreTemporaire=0;
+                    //scoreTemporaire=0;
 
                     gameOver();
                     break;
@@ -129,7 +130,7 @@ public class Main extends Application {
                 }
                 System.out.println(scoreTemporaire);
                 System.out.println(joueur.getMeilleureScore());
-                scoreTemporaire=0;
+                //scoreTemporaire=0;
 
                 gameOver();
             }
@@ -157,12 +158,15 @@ public class Main extends Application {
 
         //creation du bouton, texte et de l'event pour le gameover
         gameOverText = new Label("Game Over ! essaye encore !");
+        gameOverText.setTextFill(Color.CADETBLUE);
         gameOverText.setLayoutX(350);
         gameOverText.setLayoutY(200);
         gameOverText.setScaleX(3);
         gameOverText.setScaleY(3);
 
-        scoreLabel = new Label("score : "+ scoreTemporaire);
+        scoreLabel = new Label();
+        scoreLabel.setText("score : "+ scoreTemporaire);
+        scoreLabel.setTextFill(Color.DARKRED);
         scoreLabel.setLayoutX(360);
         scoreLabel.setLayoutY(250);
         scoreLabel.setScaleX(2);
@@ -249,6 +253,7 @@ public class Main extends Application {
 
 
     public void gameOver(){
+        scoreLabel.setText("score : "+ scoreTemporaire);
         gameOverText.setVisible(true);
         scoreLabel.setVisible(true);
         gameOverButton.setVisible(true);
