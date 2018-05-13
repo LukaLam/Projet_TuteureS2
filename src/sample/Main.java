@@ -175,6 +175,8 @@ public class Main extends Application {
         gameOverButton.setOnAction(event -> {
             restartGame();
             gameOverButton.setVisible(false);
+            scoreLabel.setVisible(false);
+            gameOverText.setVisible(false);
         });
 
         //creation du bouton et de l'event pour le resume
