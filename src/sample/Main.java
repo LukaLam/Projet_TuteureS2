@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
@@ -23,11 +24,18 @@ public class Main extends Application {
     private Direction direction = Direction.RIGHT;
     private boolean moved = false;
     private boolean running = false;
+    private boolean snakeAlive = true;
 
     //Ajout des variables pour le menu pause
     private boolean pause = false ;
     private boolean canPause = true;
     private Button resumeButton;
+
+
+    //Variables game over
+    private Button gameOverButton;
+    private Label gameOverText;
+    private Label scoreLabel;
 
     private Timeline timeline = new Timeline();
     private ObservableList<Node> snake;
@@ -108,7 +116,8 @@ public class Main extends Application {
                     System.out.println(scoreTemporaire);
                     System.out.println(joueur.getMeilleureScore());
                     scoreTemporaire=0;
-                    restartGame();
+
+                    gameOver();
                     break;
                 }
             }
@@ -121,7 +130,8 @@ public class Main extends Application {
                 System.out.println(scoreTemporaire);
                 System.out.println(joueur.getMeilleureScore());
                 scoreTemporaire=0;
-                restartGame();
+
+                gameOver();
             }
             if(QueuSnake.getTranslateX()==fruit.getTranslateX() && QueuSnake.getTranslateY() == fruit.getTranslateY()){
                 fruit.setTranslateX((int)(Math.random() * (Largeur - Taille_Bloc)) / Taille_Bloc * Taille_Bloc);
@@ -142,7 +152,32 @@ public class Main extends Application {
                 snake.add(rect);
             }
         });
-        //creation du bouton et de l'event
+
+
+
+        //creation du bouton, texte et de l'event pour le gameover
+        gameOverText = new Label("Game Over ! essaye encore !");
+        gameOverText.setLayoutX(350);
+        gameOverText.setLayoutY(200);
+        gameOverText.setScaleX(3);
+        gameOverText.setScaleY(3);
+
+        scoreLabel = new Label("score : "+ scoreTemporaire);
+        scoreLabel.setLayoutX(360);
+        scoreLabel.setLayoutY(250);
+        scoreLabel.setScaleX(2);
+        scoreLabel.setScaleY(2);
+
+        gameOverButton = new Button();
+        gameOverButton.setText("Restart the game");
+        gameOverButton.setLayoutX(350);
+        gameOverButton.setLayoutY(Hauteur /2);
+        gameOverButton.setOnAction(event -> {
+            restartGame();
+            gameOverButton.setVisible(false);
+        });
+
+        //creation du bouton et de l'event pour le resume
         resumeButton = new Button();
         resumeButton.setText("Resume");
         resumeButton.setLayoutX(370);
@@ -152,11 +187,16 @@ public class Main extends Application {
             resumeButton.setVisible(false);
         });
 
+
+
         timeline.getKeyFrames().add(frame);
         timeline.setCycleCount(Timeline.INDEFINITE);
 
+        scoreLabel.setVisible(false);
+        gameOverText.setVisible(false);
+        gameOverButton.setVisible(false);
         resumeButton.setVisible(false);
-        root.getChildren().addAll(fruit,snakeBody,resumeButton);
+        root.getChildren().addAll(fruit,snakeBody,resumeButton,gameOverButton,gameOverText,scoreLabel);
         return root;
     }
 
@@ -203,6 +243,14 @@ public class Main extends Application {
             canPause = false;
         }
         canPause = true;
+    }
+
+
+    public void gameOver(){
+        gameOverText.setVisible(true);
+        scoreLabel.setVisible(true);
+        gameOverButton.setVisible(true);
+        timeline.pause();
     }
 
     @Override
