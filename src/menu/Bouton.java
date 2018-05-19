@@ -15,17 +15,17 @@ public class Bouton extends Parent {
     private int positionX = 0;
     private int positionY = 0;
     private int note = 0;
-    private Instru instru;
+    private Son son;
 
     Rectangle fond_touche = new Rectangle(75,75,Color.WHITE);
     Text lettre_touche = new Text();
 
-    public Bouton(String l, int posX, int posY, int n, Instru ins){
+    public Bouton(String l, int posX, int posY, int n){
         lettre =  new String(l);
         positionX = posX;
         positionY = posY;
         note = n;
-        instru=ins;
+
 
         fond_touche = new Rectangle(400,75,Color.DARKGREEN);
         fond_touche.setArcHeight(10);
@@ -65,13 +65,12 @@ public class Bouton extends Parent {
     public void appuyer(){
         fond_touche.setFill(Color.DARKGREY);
         this.setTranslateY(positionY+2);
-        instru.note_on(note);
+
     }
 
     public void relacher(){
         fond_touche.setFill(Color.WHITE);
         this.setTranslateY(positionY);
-        instru.note_off(note);
 //explication later
     }
 }

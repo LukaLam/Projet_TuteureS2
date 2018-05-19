@@ -11,9 +11,9 @@ import javafx.scene.Parent;
 public class Clavier extends Parent {
 
     private Bouton[] boutons;
-    private Instru instru;//on déclare un objet de type Instru
-    public Clavier(Instru ins) {
-        instru = ins;
+    private Son son;//on déclare un objet de type Son
+    public Clavier(Son ins) {
+        son = ins;
         Rectangle fond_clavier = new Rectangle();
         fond_clavier.setWidth(900);
         fond_clavier.setHeight(625);
@@ -34,12 +34,12 @@ public class Clavier extends Parent {
         fond_clavier.setEffect(r);
 
         boutons = new Bouton[]{
-                new Bouton("Jouer à la CAMPAGNE",300,15,60,instru),
-                new Bouton("Jouer en mode ARCADE",300,115,62,instru),
-                new Bouton("Acceder à la boutique",300,215,64,instru),
-                new Bouton("Profil",300,320,65,instru),
-                new Bouton("Option",300,425,67,instru),
-                new Bouton("Aide",300,530,69,instru),
+                new Bouton("Jouer à la CAMPAGNE",300,15,60),
+                new Bouton("Jouer en mode ARCADE",300,115,62),
+                new Bouton("Acceder à la boutique",300,215,64),
+                new Bouton("Profil",300,320,65),
+                new Bouton("Option",300,425,67),
+                new Bouton("Aide",300,530,69),
         };
 
 
