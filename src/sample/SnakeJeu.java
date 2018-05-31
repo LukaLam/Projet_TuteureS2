@@ -1,10 +1,13 @@
 package sample;
 
+import com.sun.javafx.css.Size;
+import com.sun.xml.internal.ws.dump.LoggingDumpTube;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -14,8 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
@@ -59,6 +61,8 @@ public class SnakeJeu extends Scene {
     private Fruit fruitEnum;
    // Scene scene;
 
+
+
     public SnakeJeu() {
         super(new Group(),800,600);
         ajouterAddAtribut();
@@ -69,6 +73,8 @@ public class SnakeJeu extends Scene {
     private Parent initAttribut() {
         Pane root = new Pane();
         root.setPrefSize(Largeur, Hauteur);
+       // root.setBackground(new Background(new BackgroundFill(Color.DARKGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
+        root.setBackground(new Background(new BackgroundImage(new Image(("img/decors/decor.png")),BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
 
         Group snakeBody = new Group();
         snake = snakeBody.getChildren();
