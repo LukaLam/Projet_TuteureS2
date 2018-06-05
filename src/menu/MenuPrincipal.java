@@ -59,7 +59,7 @@ public class MenuPrincipal extends Scene {
             @Override
             public void handle(MouseEvent event) {
                 System.out.println("btest");
-                Main.getStage().setScene(new SnakeJeu());
+                Main.getStage().setScene(new MenuDifficulte());
 
             }
         });
