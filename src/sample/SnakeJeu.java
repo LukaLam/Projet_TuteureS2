@@ -30,7 +30,7 @@ public class SnakeJeu extends Scene {
     public static final int Largeur = 20 * Taille_Bloc;
     public static final int Hauteur = 15 * Taille_Bloc;
 
-    private double vitesse=0.15 ;
+    private double difficulte=0.15;
     private Button buttonFacile,buttonMoyen,buttonDifficile;
 
 
@@ -59,8 +59,9 @@ public class SnakeJeu extends Scene {
     private Fruit fruitEnum;
    // Scene scene;
 
-    public SnakeJeu() {
+    public SnakeJeu(double frame) {
         super(new Group(),800,600);
+        this.difficulte=frame;
         ajouterAddAtribut();
         addKeyboardEvent();
 
@@ -92,37 +93,9 @@ public class SnakeJeu extends Scene {
         fruit.setTranslateX((int)(Math.random() * Largeur - Taille_Bloc) / Taille_Bloc * Taille_Bloc); // les gens le : -Block_size permet de rester dans la grille si jamais
         fruit.setTranslateX((int)(Math.random() * Hauteur - Taille_Bloc) / Taille_Bloc * Taille_Bloc);
 
-        buttonFacile = new Button();
-        buttonFacile.setText("facile");
-        buttonFacile.setLayoutX(350);
-        buttonFacile.setLayoutY(Hauteur /2);
-        buttonFacile.setOnAction(event -> {
-            choixDifficultee();
-            vitesse=0.20;
-
-        });
-        buttonMoyen = new Button();
-        buttonMoyen.setText("normal");
-        buttonMoyen.setLayoutX(350);
-        buttonMoyen.setLayoutY(Hauteur /2+25);
-        buttonMoyen.setOnAction(event -> {
-            choixDifficultee();
-            vitesse=0.15;
 
 
-        });
-        buttonDifficile = new Button();
-        buttonDifficile.setText("difficile");
-        buttonDifficile.setLayoutX(350);
-        buttonDifficile.setLayoutY(Hauteur /2+50);
-        buttonDifficile.setOnAction(event -> {
-            choixDifficultee();
-            vitesse=0.05;
-
-
-        });
-
-        KeyFrame frame = new KeyFrame(Duration.seconds(vitesse), event -> { // Si on baisse le 0.1, cela augmente la difficulté  vu que le snake ira plus vite ( oué je sais c'est logique xD )
+        KeyFrame frame = new KeyFrame(Duration.seconds(difficulte), event -> { // Si on baisse le 0.1, cela augmente la difficulté  vu que le snake ira plus vite ( oué je sais c'est logique xD )
             if(!running){
                 return;
             }
@@ -207,7 +180,35 @@ public class SnakeJeu extends Scene {
 
         //difficultée
 
+        /*buttonFacile = new Button();
+        buttonFacile.setText("facile");
+        buttonFacile.setLayoutX(350);
+        buttonFacile.setLayoutY(Hauteur /2);
+        buttonFacile.setOnAction(event -> {
+            choixDifficultee();
+            vitesse=0.20;
 
+        });
+        buttonMoyen = new Button();
+        buttonMoyen.setText("normal");
+        buttonMoyen.setLayoutX(350);
+        buttonMoyen.setLayoutY(Hauteur /2+25);
+        buttonMoyen.setOnAction(event -> {
+            choixDifficultee();
+            vitesse=0.15;
+
+
+        });
+        buttonDifficile = new Button();
+        buttonDifficile.setText("difficile");
+        buttonDifficile.setLayoutX(350);
+        buttonDifficile.setLayoutY(Hauteur /2+50);
+        buttonDifficile.setOnAction(event -> {
+            choixDifficultee();
+            vitesse=0.05;
+
+
+        });*/
 
         //creation du bouton, texte et de l'event pour le gameover
         gameOverText = new Label("Game Over ! essaye encore !");
@@ -261,17 +262,17 @@ public class SnakeJeu extends Scene {
 
         timeline.getKeyFrames().add(frame);
         timeline.setCycleCount(Timeline.INDEFINITE);
-
+/*
         buttonFacile.setVisible(true);
         buttonMoyen.setVisible(true);
-        buttonDifficile.setVisible(true);
+        buttonDifficile.setVisible(true);*/
 
         mainMenuButton.setVisible(false);
         scoreLabel.setVisible(false);
         gameOverText.setVisible(false);
         gameOverButton.setVisible(false);
         resumeButton.setVisible(false);
-        root.getChildren().addAll(fruit,snakeBody,resumeButton,gameOverButton,gameOverText,scoreLabel,mainMenuButton,buttonFacile,buttonMoyen,buttonDifficile);
+        root.getChildren().addAll(fruit,snakeBody,resumeButton,gameOverButton,gameOverText,scoreLabel,mainMenuButton);
         return root;
     }
     public void addKeyboardEvent() {
@@ -321,7 +322,6 @@ public class SnakeJeu extends Scene {
 //        jeux.Main.getStage().setScene(scene);
 //        jeux.Main.getStage().show();
         startGame();
-        timeline.pause();
 
     }
 
@@ -331,6 +331,7 @@ public class SnakeJeu extends Scene {
     private void restartGame(){
         stopGame();
         startGame();
+        scoreTemporaire = 0;
     }
     private void startGame(){
         direction= Direction.RIGHT;

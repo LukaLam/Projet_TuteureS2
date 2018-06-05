@@ -31,7 +31,9 @@ public class MenuDifficulte extends Scene {
     }
 
     public void initAttribut() {
+/*
         snakeJeu = new SnakeJeu(getDifficulty());
+*/
 
         Group root = (Group)this.getRoot();
         //root.setPrefSize(Largeur, Hauteur);
