@@ -1,12 +1,9 @@
 package sample;
 
-import elementGrille.Mur;
 import elementGrille.Position;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -14,20 +11,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import jeux.Main;
-import menu.Menu;
-import menu.MenuDifficulte;
 import menu.MenuPrincipal;
-import menu.Son;
-import menu.menuBoutique.MenuBoutique;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,12 +51,13 @@ public class SnakeJeu extends Scene {
     private Button mainMenuButton;
 
     private Timeline timeline = new Timeline();
-    private ObservableList<Node> snake;
+    public ObservableList<Node> snake;
     private Joueur joueur = new Joueur(200,0,0);
     private int scoreTemporaire=0;
     private Fruit fruitEnum;
     private Rectangle fruit;
    // Scene scene;
+   private ControlImage controlImage;
 
     public SnakeJeu(double frame) {
         super(new Group(),800,600);
@@ -82,6 +73,9 @@ public class SnakeJeu extends Scene {
 
         Group snakeBody = new Group();
         snake = snakeBody.getChildren();
+
+        controlImage = new ControlImage(this);
+        controlImage.start();
 
 
          fruit = new Rectangle(
@@ -101,7 +95,10 @@ public class SnakeJeu extends Scene {
         //    fruit.setFill(fruitEnum.getCouleurFruit());
         fruit.setTranslateX((int)((Math.random()) * Largeur - Taille_Bloc) / Taille_Bloc * Taille_Bloc); // les gens le : -Block_size permet de rester dans la grille si jamais
         fruit.setTranslateY((int)((Math.random() )* Hauteur - Taille_Bloc) / Taille_Bloc * Taille_Bloc);
-
+        if(fruit.getTranslateX()==0 && fruit.getTranslateY()==0){
+            fruit.setTranslateX((int) (Math.random() * (Largeur - Taille_Bloc)) / Taille_Bloc * Taille_Bloc);
+            fruit.setTranslateY((int) (Math.random() * (Hauteur - Taille_Bloc)) / Taille_Bloc * Taille_Bloc);
+        }
         // si le fruit apparait sur le mur ou le snake recrée un fruit
         while(isSurMur() || isSurSnake()) {
             fruit.setTranslateX((int) (Math.random() * (Largeur - Taille_Bloc)) / Taille_Bloc * Taille_Bloc);
@@ -128,19 +125,43 @@ public class SnakeJeu extends Scene {
                 case UP:
                     QueuSnake.setTranslateX(snake.get(0).getTranslateX());
                     QueuSnake.setTranslateY(snake.get(0).getTranslateY() - Taille_Bloc);
+                    ((Rectangle)snake.get(0)).setFill(new ImagePattern(new Image("skin_default/vertical.png")));
                     break;
                 case DOWN :
                     QueuSnake.setTranslateX(snake.get(0).getTranslateX());
                     QueuSnake.setTranslateY(snake.get(0).getTranslateY() + Taille_Bloc);
+                    ((Rectangle)snake.get(0)).setFill(new ImagePattern(new Image("skin_default/vertical.png")));
                     break;
                 case LEFT:
                     QueuSnake.setTranslateX(snake.get(0).getTranslateX()- Taille_Bloc);
                     QueuSnake.setTranslateY(snake.get(0).getTranslateY());
+                    ((Rectangle)snake.get(0)).setFill(new ImagePattern(new Image("skin_default/horizontal.png")));
                     break;
                 case RIGHT :
                     QueuSnake.setTranslateX(snake.get(0).getTranslateX()+ Taille_Bloc);
                     QueuSnake.setTranslateY(snake.get(0).getTranslateY());
+                    ((Rectangle)snake.get(0)).setFill(new ImagePattern(new Image("skin_default/horizontal.png")));
                     break;
+            }
+            int dirQueue=0;
+            /*
+            1=bout a gauche
+            2=bout a droite
+            3=bout en bas
+            4=bout en haut
+             */
+            if (snake.size()>=2)
+            {
+                //normalement enlevable si le snake commence avec deux ou trois morceaux, trois étant l'idéal niveau graphique
+                if (snake.get(snake.size()-2).getTranslateX()>snake.get(snake.size()-1).getTranslateX())
+                    dirQueue=2;
+                else if (snake.get(snake.size()-2).getTranslateX()<snake.get(snake.size()-1).getTranslateX())
+                    dirQueue=3;
+                else if (snake.get(snake.size()-2).getTranslateY()>snake.get(snake.size()-1).getTranslateY())
+                    dirQueue=4;
+                else if (snake.get(snake.size()-2).getTranslateY()<snake.get(snake.size()-1).getTranslateY())
+                    dirQueue=1;
+                controlImage.dirQueue=dirQueue;
             }
             moved = true;
             if(toRemove==true){
@@ -216,10 +237,11 @@ public class SnakeJeu extends Scene {
 
                 rect.setTranslateX(tailX);
                 rect.setTranslateY(tailY);
-                rect.setFill(new ImagePattern(new Image("images/test.png")));
+              //  rect.setFill(new ImagePattern(new Image("images/test.png")));
 
                 snake.add(rect);
             }
+            controlImage.updateCoin();
         });
 
         //difficultée
@@ -334,22 +356,54 @@ public class SnakeJeu extends Scene {
                     case Z :
 
                         if(direction != Direction.DOWN){
+                            int[] coin = new int[]{0,1,0}; //{ancienne direction, nouvelle direction, posSnake}
+                            if (direction==Direction.LEFT)
+                                coin[0]=3;
+                            else if (direction==Direction.RIGHT)
+                                coin[0]=4;
                             direction = Direction.UP;
+                            controlImage.dirTete=1;
+                            if(coin[0]!=0)
+                                controlImage.coin.add(coin);
                         }
                         break;
                     case S :
                         if(direction != Direction.UP){
+                            int[] coin = new int[]{0,2,0};
+                            if (direction==Direction.LEFT)
+                                coin[0]=3;
+                            else if (direction==Direction.RIGHT)
+                                coin[0]=4;
                             direction = Direction.DOWN;
+                            controlImage.dirTete=4;
+                            if(coin[0]!=0)
+                                controlImage.coin.add(coin);
                         }
                         break;
                     case Q :
                         if(direction != Direction.RIGHT){
+                            int[] coin = new int[]{0,3,0};
+                            if (direction==Direction.UP)
+                                coin[0]=1;
+                            else if (direction==Direction.DOWN)
+                                coin[0]=2;
                             direction = Direction.LEFT;
+                            controlImage.dirTete=3;
+                            if(coin[0]!=0)
+                                controlImage.coin.add(coin);
                         }
                         break;
                     case D:
                         if(direction != Direction.LEFT){
+                            int[] coin = new int[]{0,4,0};
+                            if (direction==Direction.UP)
+                                coin[0]=1;
+                            else if (direction==Direction.DOWN)
+                                coin[0]=2;
                             direction = Direction.RIGHT;
+                            controlImage.dirTete=2;
+                            if(coin[0]!=0)
+                                controlImage.coin.add(coin);
                         }
                         break;
                     //la pause s'active quand on appuie sur "P" (comme pause quoi vu que j'avais pas d'idée)
@@ -400,10 +454,11 @@ public class SnakeJeu extends Scene {
     private void startGame(){
         direction= Direction.RIGHT;
         Rectangle head = new Rectangle(Taille_Bloc, Taille_Bloc);
-        head.setFill(new ImagePattern(new Image("images\\test.png")));
+       // head.setFill(new ImagePattern(new Image("images\\test.png")));
         snake.add(head);
-            timeline.play();
-            running = true;
+        controlImage.newGame();
+        timeline.play();
+        running = true;
 
     }
     private void stopGame(){

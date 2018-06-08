@@ -34,6 +34,7 @@ public enum Fruit {
     public static Fruit getRandomFruit(){
         Random r = new Random();
         int valeurAleatoire = r.nextInt(5);
+
         return Fruit.values()[valeurAleatoire];
     }
 
