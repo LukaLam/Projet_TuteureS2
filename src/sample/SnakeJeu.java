@@ -211,6 +211,14 @@ public class SnakeJeu extends Scene {
 
                 gameOver();
             }
+            if(snake.size()<=2){
+                Rectangle rectangle = new Rectangle(Taille_Bloc, Taille_Bloc);
+                rectangle.setTranslateX(tailX);
+                rectangle.setTranslateY(tailY);
+                //  rect.setFill(new ImagePattern(new Image("images/test.png")));
+
+                snake.add(rectangle);
+            }
 
             if(QueuSnake.getTranslateX()==fruit.getTranslateX() && QueuSnake.getTranslateY() == fruit.getTranslateY()){
 
@@ -514,6 +522,7 @@ public class SnakeJeu extends Scene {
         Rectangle head = new Rectangle(Taille_Bloc, Taille_Bloc);
        // head.setFill(new ImagePattern(new Image("images\\test.png")));
         snake.add(head);
+
         controlImage.newGame();
         timeline.play();
         running = true;
