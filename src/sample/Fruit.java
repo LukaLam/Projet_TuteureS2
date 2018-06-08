@@ -38,6 +38,6 @@ public enum Fruit {
         return Fruit.values()[valeurAleatoire];
     }
 
-
+// fin test
 }
 
