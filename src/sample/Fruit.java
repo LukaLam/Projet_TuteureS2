@@ -7,11 +7,11 @@ import javafx.scene.paint.Color;
 import java.util.Random;
 
 public enum Fruit {
-    POMME(5,"pomme.png"),
-    MYRTILLE(10,"myrtille.png"),
-    BANANE(15,"banane.png"),
-    FRAMBOISE(20,"framboise.png"),
-    FRAISE(50,"fraise.png");
+    POMME(5,"images/pomme.png"),
+    MYRTILLE(10,"images/myrtille.png"),
+    BANANE(15,"images/banane.png"),
+    FRAMBOISE(20,"images/framboise.png"),
+    FRAISE(50,"images/fraise.png");
 
 
         private int valeurFruit;

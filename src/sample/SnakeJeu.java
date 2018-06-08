@@ -1,5 +1,7 @@
 package sample;
 
+import elementGrille.Mur;
+import elementGrille.Position;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.ObservableList;
@@ -21,15 +23,21 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import jeux.Main;
+import menu.Menu;
+import menu.MenuDifficulte;
 import menu.MenuPrincipal;
 import menu.Son;
 import menu.menuBoutique.MenuBoutique;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SnakeJeu extends Scene {
+    public static List<Position> lp = new ArrayList<>();
     public static final int Taille_Bloc = 40;
     public static final int Largeur = 20 * Taille_Bloc;
     public static final int Hauteur = 15 * Taille_Bloc;
-
+    public Pane root;
     private double difficulte=0.15;
     private Button buttonFacile,buttonMoyen,buttonDifficile;
 
@@ -57,6 +65,7 @@ public class SnakeJeu extends Scene {
     private Joueur joueur = new Joueur(200,0,0);
     private int scoreTemporaire=0;
     private Fruit fruitEnum;
+    private Rectangle fruit;
    // Scene scene;
 
     public SnakeJeu(double frame) {
@@ -68,14 +77,14 @@ public class SnakeJeu extends Scene {
     }
 
     private Parent initAttribut() {
-        Pane root = new Pane();
+        root = new Pane();
         root.setPrefSize(Largeur, Hauteur);
 
         Group snakeBody = new Group();
         snake = snakeBody.getChildren();
 
 
-        Rectangle fruit = new Rectangle(
+         fruit = new Rectangle(
                 Taille_Bloc, Taille_Bloc
         );
         fruitEnum = fruitEnum.getRandomFruit();
@@ -90,8 +99,19 @@ public class SnakeJeu extends Scene {
 
 
         //    fruit.setFill(fruitEnum.getCouleurFruit());
-        fruit.setTranslateX((int)(Math.random() * Largeur - Taille_Bloc) / Taille_Bloc * Taille_Bloc); // les gens le : -Block_size permet de rester dans la grille si jamais
-        fruit.setTranslateX((int)(Math.random() * Hauteur - Taille_Bloc) / Taille_Bloc * Taille_Bloc);
+        fruit.setTranslateX((int)((Math.random()) * Largeur - Taille_Bloc) / Taille_Bloc * Taille_Bloc); // les gens le : -Block_size permet de rester dans la grille si jamais
+        fruit.setTranslateY((int)((Math.random() )* Hauteur - Taille_Bloc) / Taille_Bloc * Taille_Bloc);
+        if(fruit.getTranslateX()==0 && fruit.getTranslateY()==0){
+            fruit.setTranslateX((int) (Math.random() * (Largeur - Taille_Bloc)) / Taille_Bloc * Taille_Bloc);
+            fruit.setTranslateY((int) (Math.random() * (Hauteur - Taille_Bloc)) / Taille_Bloc * Taille_Bloc);
+        }
+        // si le fruit apparait sur le mur ou le snake recrée un fruit
+        while(isSurMur() || isSurSnake()) {
+            fruit.setTranslateX((int) (Math.random() * (Largeur - Taille_Bloc)) / Taille_Bloc * Taille_Bloc);
+            fruit.setTranslateY((int) (Math.random() * (Hauteur - Taille_Bloc)) / Taille_Bloc * Taille_Bloc);
+        }
+
+
 
 
 
@@ -129,6 +149,22 @@ public class SnakeJeu extends Scene {
             if(toRemove==true){
                 snake.add(0,QueuSnake);
             }
+
+            for(Position rect : lp){
+                if(rect.getAxeX() == snake.get(0).getTranslateX() && rect.getAxeY() == snake.get(0).getTranslateY()){
+                    joueur.setScoreJoueur(scoreTemporaire);
+                    if (joueur.getMeilleureScore() < scoreTemporaire){
+                        joueur.setMeilleureScore(scoreTemporaire);
+                    }
+
+                    System.out.println(scoreTemporaire);
+                    System.out.println(joueur.getMeilleureScore());
+                    //scoreTemporaire=0;
+
+                    gameOver();
+                    break;
+                }
+            }
             //collision
             for(Node rect : snake){
                 if(rect != QueuSnake && QueuSnake.getTranslateX() == rect.getTranslateX() && QueuSnake.getTranslateY() == rect.getTranslateY()){
@@ -157,13 +193,24 @@ public class SnakeJeu extends Scene {
 
                 gameOver();
             }
+
             if(QueuSnake.getTranslateX()==fruit.getTranslateX() && QueuSnake.getTranslateY() == fruit.getTranslateY()){
+
+
                 fruit.setTranslateX((int)(Math.random() * (Largeur - Taille_Bloc)) / Taille_Bloc * Taille_Bloc);
                 fruit.setTranslateY((int)(Math.random() * (Hauteur - Taille_Bloc)) / Taille_Bloc * Taille_Bloc);
 
+
+                // fruit apparait a la position d'un mur ou du snake recrée un fruit
+                while(isSurMur() || isSurSnake()) {
+                    fruit.setTranslateX((int) (Math.random() * (Largeur - Taille_Bloc)) / Taille_Bloc * Taille_Bloc);
+                    fruit.setTranslateY((int) (Math.random() * (Hauteur - Taille_Bloc)) / Taille_Bloc * Taille_Bloc);
+                }
+
+
                 Rectangle rect = new Rectangle(Taille_Bloc, Taille_Bloc);
                 //J'ajoute le score ici
-                scoreTemporaire+=fruitEnum.getValeurFruit();
+                scoreTemporaire+=fruitEnum.getValeurFruit()*(1/difficulte);
                 fruitEnum = fruitEnum.getRandomFruit();
 
                 fruit.setFill(new ImagePattern(fruitEnum.getImageFruit()));
@@ -172,7 +219,7 @@ public class SnakeJeu extends Scene {
 
                 rect.setTranslateX(tailX);
                 rect.setTranslateY(tailY);
-                rect.setFill(new ImagePattern(new Image("test.png")));
+                rect.setFill(new ImagePattern(new Image("images/test.png")));
 
                 snake.add(rect);
             }
@@ -325,7 +372,27 @@ public class SnakeJeu extends Scene {
 
     }
 
+    //si le fruit apparait sur le mur renvoye true
+    public boolean isSurMur() {
+        for (Position rect : lp) {
+            if (rect.getAxeX() == fruit.getTranslateX() && rect.getAxeY() == fruit.getTranslateY()) {
+                return true;
+            }
 
+
+        }
+        return false;
+    }
+
+    //si le fruit apparait sur le snake renvoye true
+    public boolean isSurSnake(){
+        for(Node a : snake ) {
+            if (a.getTranslateX() == fruit.getTranslateX() && a.getTranslateY() == fruit.getTranslateY()) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 
     private void restartGame(){
@@ -336,10 +403,11 @@ public class SnakeJeu extends Scene {
     private void startGame(){
         direction= Direction.RIGHT;
         Rectangle head = new Rectangle(Taille_Bloc, Taille_Bloc);
-        head.setFill(new ImagePattern(new Image("test.png")));
+        head.setFill(new ImagePattern(new Image("images\\test.png")));
         snake.add(head);
-        timeline.play();
-        running = true;
+            timeline.play();
+            running = true;
+
     }
     private void stopGame(){
         running = false;
