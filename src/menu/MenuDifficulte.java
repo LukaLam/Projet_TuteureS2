@@ -22,7 +22,6 @@ import static sample.SnakeJeu.Largeur;
 public class MenuDifficulte extends Scene {
 
     private Button buttonFacile,buttonMoyen,buttonDifficile;
-
     private double vitesse = 0.15 ;
     private int difficulty = 3;
     SnakeJeu snakeJeu;
@@ -54,6 +53,8 @@ public class MenuDifficulte extends Scene {
         buttonFacile.setOnAction(event -> {
             choixDifficultee();
             //setDifficulty(1);
+            List<Position> lp = new ArrayList<>();
+            SnakeJeu.lp= lp ;
             Main.getStage().setScene(new SnakeJeu(0.20));
 
         });

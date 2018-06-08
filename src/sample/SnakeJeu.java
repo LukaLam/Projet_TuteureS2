@@ -101,10 +101,7 @@ public class SnakeJeu extends Scene {
         //    fruit.setFill(fruitEnum.getCouleurFruit());
         fruit.setTranslateX((int)((Math.random()) * Largeur - Taille_Bloc) / Taille_Bloc * Taille_Bloc); // les gens le : -Block_size permet de rester dans la grille si jamais
         fruit.setTranslateY((int)((Math.random() )* Hauteur - Taille_Bloc) / Taille_Bloc * Taille_Bloc);
-        if(fruit.getTranslateX()==0 && fruit.getTranslateY()==0){
-            fruit.setTranslateX((int) (Math.random() * (Largeur - Taille_Bloc)) / Taille_Bloc * Taille_Bloc);
-            fruit.setTranslateY((int) (Math.random() * (Hauteur - Taille_Bloc)) / Taille_Bloc * Taille_Bloc);
-        }
+
         // si le fruit apparait sur le mur ou le snake recrée un fruit
         while(isSurMur() || isSurSnake()) {
             fruit.setTranslateX((int) (Math.random() * (Largeur - Taille_Bloc)) / Taille_Bloc * Taille_Bloc);
