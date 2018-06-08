@@ -62,12 +62,13 @@ public class MenuDifficulte extends Scene {
         buttonMoyen.setText("normal");
         buttonMoyen.setLayoutX(350);
         buttonMoyen.setLayoutY(Hauteur /2+25);
+
         buttonMoyen.setOnAction(event -> {
             choixDifficultee();
             //setDifficulty(2);
             SnakeJeu sj = new SnakeJeu(0.15);
             //ajout de quelques murs
-            List<Position> lp = new ArrayList<>();
+            /*List<Position> lp = new ArrayList<>();
             List<Rectangle> lr = new ArrayList<>();
             lp.add(new Position(360,160));
             lp.add(new Position(360,200));
@@ -88,7 +89,7 @@ public class MenuDifficulte extends Scene {
             }
 
 
-            SnakeJeu.lp= lp ;
+            SnakeJeu.lp= lp ;*/
 
             Main.getStage().setScene(sj);
 
@@ -102,7 +103,7 @@ public class MenuDifficulte extends Scene {
         buttonDifficile.setOnAction(event -> {
             choixDifficultee();
             //snakeJeu.setDifficulty(2);
-            List<Position> lp = new ArrayList<>();
+            /*List<Position> lp = new ArrayList<>();
             List<Rectangle> lr = new ArrayList<>();
             //ajout de quelques murs
             lp.add(new Position(400,480));
@@ -125,7 +126,6 @@ public class MenuDifficulte extends Scene {
             lp.add(new Position(440,280));
 
 
-            SnakeJeu sj = new SnakeJeu(0.10);
             for(Position p:lp){
                 lr.add(new Rectangle(p.getAxeX(),p.getAxeY(),40,40));
 
@@ -139,7 +139,9 @@ public class MenuDifficulte extends Scene {
             }
 
 
-            SnakeJeu.lp= lp ;
+            SnakeJeu.lp= lp ;*/
+            SnakeJeu sj = new SnakeJeu(0.10);
+
             Main.getStage().setScene(sj);
 
 

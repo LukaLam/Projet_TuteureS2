@@ -276,6 +276,64 @@ public class SnakeJeu extends Scene {
 
         });*/
 
+
+        if(difficulte == 0.15){
+            //List<Position> lpN = new ArrayList<>();
+            List<Rectangle> lr = new ArrayList<>();
+            lp.add(new Position(360,160));
+            lp.add(new Position(360,200));
+            lp.add(new Position(360,240));
+
+            lp.add(new Position(360,320));
+            lp.add(new Position(360,360));
+            lp.add(new Position(360,400));
+
+
+            for(Position p:lp){
+                lr.add(new Rectangle(p.getAxeX(),p.getAxeY(),40,40));
+
+            }
+            for(Rectangle r:lr){
+                r.setFill(new ImagePattern(new Image("images/mur.png")));
+                root.getChildren().add(r);
+            }
+
+        }else if(difficulte == 0.10){
+            List<Rectangle> lr = new ArrayList<>();
+            //ajout de quelques murs
+            lp.add(new Position(400,480));
+            lp.add(new Position(400,520));
+            lp.add(new Position(400,560));
+            lp.add(new Position(760,0));
+            lp.add(new Position(760,40));
+            lp.add(new Position(760,80));
+            lp.add(new Position(160,240));
+            lp.add(new Position(160,280));
+            lp.add(new Position(160,320));
+            lp.add(new Position(320,0));
+            lp.add(new Position(320,40));
+            lp.add(new Position(320,80));
+            lp.add(new Position(680,240));
+            lp.add(new Position(680,280));
+            lp.add(new Position(680,320));
+            lp.add(new Position(360,280));
+            lp.add(new Position(400,280));
+            lp.add(new Position(440,280));
+
+
+            for(Position p:lp){
+                lr.add(new Rectangle(p.getAxeX(),p.getAxeY(),40,40));
+
+
+
+            }
+
+            for(Rectangle r:lr){
+                r.setFill(new ImagePattern(new Image("images/mur.png")));
+                root.getChildren().add(r);
+            }
+        }
+
         //creation du bouton, texte et de l'event pour le gameover
         gameOverText = new Label("Game Over ! essaye encore !");
         gameOverText.setTextFill(Color.CADETBLUE);
