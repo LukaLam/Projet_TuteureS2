@@ -421,6 +421,19 @@ public class SnakeJeu extends Scene {
         mainMenuButton.setScaleY(2);
         mainMenuButton.setOnAction(event -> {
             //mainMenuButton.setVisible(false);
+           /* if(!modele.test) {
+                modele.player.stop();
+                modele.player.setAutoPlay(false);
+            }*/
+           if(modele.test) {
+               System.out.println(modele.player.getStatus());
+               String status =modele.player.getStatus().toString();
+               if (status.equals("PLAYING")) {
+                   System.out.println("BITE");
+                   modele.player.stop();
+                   modele.test = false;
+               }
+           }
             Main.getStage().setScene(new MenuPrincipal(modele));
 
 

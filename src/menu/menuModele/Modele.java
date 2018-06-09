@@ -1,11 +1,15 @@
 package menu.menuModele;
 
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import joueur.Joueur;
 import menu.MenuPrincipal;
 import menu.menuBoutique.Decors;
 import menu.menuBoutique.Musique;
 import menu.menuBoutique.Skin;
+
+import java.io.File;
 
 public class Modele {
 
@@ -14,6 +18,10 @@ public class Modele {
     private Skin skinSelectionne;
     private Musique musiqueSelectionee;
     private Joueur j1;
+    public boolean test=false;
+    public MediaPlayer player;
+    public File file;
+    public Media media;
 
 
     public Modele(){
@@ -23,12 +31,21 @@ public class Modele {
         decorSelectionne = Decors.getListeDecors().get(0);
         Skin.initSkin();
         skinSelectionne = Skin.getListSkins().get(0);
+        musiqueSelectionee= null;
         menuPrincipal = new MenuPrincipal(this);
+
 
     }
 
     public Joueur getJ1() {
         return j1;
+    }
+
+    public void attribuerMusic(){
+        file = new File(getMusiqueSelectionee().getChemin());
+        media = new Media(file.toURI().toString());
+        player = new MediaPlayer(media);
+        test=true;
     }
 
     public Decors getDecorSelectionne() {

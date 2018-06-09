@@ -8,13 +8,17 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
+
 import jeux.Main;
 import joueur.Joueur;
 import menu.menuModele.Modele;
 import sample.SnakeJeu;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +32,8 @@ public class MenuDifficulte extends Scene {
     private int difficulty = 3;
     SnakeJeu snakeJeu;
     private Joueur j1;
+
+
    /* public MenuDifficulte(Parent root, Button buttonFacile, Button buttonMoyen, Button buttonDifficile, double vitesse) {
         super(root);
         this.buttonFacile = buttonFacile;
@@ -43,9 +49,15 @@ public class MenuDifficulte extends Scene {
 
     public void initAttribut(Modele modele) {
         this.j1 = j1;
-/*
-        snakeJeu = new SnakeJeu(getDifficulty());
-*/
+
+     //   snakeJeu = new SnakeJeu(getDifficulty());
+
+        //test
+
+
+        //fin test
+
+
 
         Group root = (Group)this.getRoot();
         //root.setPrefSize(Largeur, Hauteur);
@@ -55,10 +67,21 @@ public class MenuDifficulte extends Scene {
         buttonFacile.setLayoutX(350);
         buttonFacile.setLayoutY(Hauteur /2);
         buttonFacile.setOnAction(event -> {
-            choixDifficultee();
-            //setDifficulty(1);
-            List<Position> lp = new ArrayList<>();
-            SnakeJeu.lp= lp ;
+                    choixDifficultee();
+                    //setDifficulty(1);
+                    List<Position> lp = new ArrayList<>();
+                    SnakeJeu.lp = lp;
+                    //tesst
+            if(modele.getMusiqueSelectionee() !=null) {
+                modele.attribuerMusic();
+            }
+
+            if (modele.test){
+
+                modele.player.play();
+                modele.player.setAutoPlay(true);
+            }
+            //fin test
             Main.getStage().setScene(new SnakeJeu(0.20,modele));
 
         });
@@ -70,6 +93,10 @@ public class MenuDifficulte extends Scene {
         buttonMoyen.setOnAction(event -> {
             choixDifficultee();
             //setDifficulty(2);
+            if (modele.test == true){
+                modele.player.play();
+                modele.player.setAutoPlay(true);
+            }
             SnakeJeu sj = new SnakeJeu(0.15,modele);
             //ajout de quelques murs
             /*List<Position> lp = new ArrayList<>();
@@ -144,6 +171,10 @@ public class MenuDifficulte extends Scene {
 
 
             SnakeJeu.lp= lp ;*/
+            if (modele.test == true){
+                modele.player.play();
+                modele.player.setAutoPlay(true);
+            }
             SnakeJeu sj = new SnakeJeu(0.10,modele);
 
             Main.getStage().setScene(sj);
