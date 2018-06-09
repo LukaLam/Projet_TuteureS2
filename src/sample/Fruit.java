@@ -33,9 +33,20 @@ public enum Fruit {
 
     public static Fruit getRandomFruit(){
         Random r = new Random();
-        int valeurAleatoire = r.nextInt(5);
-
-        return Fruit.values()[valeurAleatoire];
+        double valeurAleatoire = r.nextDouble();
+        if (valeurAleatoire >=0 && valeurAleatoire <=0.4){
+            return Fruit.values()[0];
+        }else  if (valeurAleatoire >=0.401 && valeurAleatoire <=0.75){
+            return Fruit.values()[1];
+        }else if (valeurAleatoire >=0.751 && valeurAleatoire <=0.85){
+            return Fruit.values()[2];
+        }else if (valeurAleatoire >=0.851 && valeurAleatoire <=0.94){
+            return Fruit.values()[3];
+        }else if (valeurAleatoire >=0.941 && valeurAleatoire <=1){
+            return Fruit.values()[4];
+        }
+        return null;
+        //return Fruit.values()[valeurAleatoire];
     }
 
 // fin test
