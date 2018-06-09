@@ -11,13 +11,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import jeux.Main;
 import menu.MenuPrincipal;
+import joueur.Joueur;
+import menu.menuModele.Modele;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -26,6 +28,7 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class SnakeJeu extends Scene {
     public static List<Position> lp = new ArrayList<>();
     public static final int Taille_Bloc = 40;
@@ -33,13 +36,11 @@ public class SnakeJeu extends Scene {
     public static final int Hauteur = 15 * Taille_Bloc;
     public Pane root;
     private double difficulte=0.15;
-    private Button buttonFacile,buttonMoyen,buttonDifficile;
 
 
     private Direction direction = Direction.RIGHT;
     private boolean moved = false;
     private boolean running = false;
-    private boolean snakeAlive = true;
 
     //Ajout des variables pour le menu pause
     private boolean pause = false ;
@@ -57,7 +58,8 @@ public class SnakeJeu extends Scene {
 
     private Timeline timeline = new Timeline();
     public ObservableList<Node> snake;
-    private Joueur joueur = new Joueur(200,0,0);
+    private Modele modele;
+
 
     private int highScore = 0;
     private int scoreTemporaire=0;
@@ -66,6 +68,7 @@ public class SnakeJeu extends Scene {
     private Rectangle fruit;
    // Scene scene;
    private ControlImage controlImage;
+   private Joueur joueur;
 
     FileReader fileReader;
     String fichierScore;
@@ -73,8 +76,10 @@ public class SnakeJeu extends Scene {
     BufferedWriter bufferedWriter;
     BufferedReader bufferedReader;
 
-    public SnakeJeu(double frame) {
+    public SnakeJeu(double frame,Modele modele) {
         super(new Group(),800,600);
+        this.modele = modele;
+        joueur = modele.getJ1();
         this.difficulte=frame;
         ajouterAddAtribut();
         addKeyboardEvent();
@@ -84,11 +89,14 @@ public class SnakeJeu extends Scene {
     private Parent initAttribut() {
         root = new Pane();
         root.setPrefSize(Largeur, Hauteur);
+        String background = modele.getDecorSelectionne().getCheminGrand();
+        root.setBackground(new Background(new BackgroundImage(new Image((background)),BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
+
 
         Group snakeBody = new Group();
         snake = snakeBody.getChildren();
 
-        controlImage = new ControlImage(this);
+        controlImage = new ControlImage(this,modele);
         controlImage.start();
 
         try {
@@ -145,27 +153,28 @@ public class SnakeJeu extends Scene {
 
             double tailX = QueuSnake.getTranslateX();
             double tailY = QueuSnake.getTranslateY();
+            String directory= modele.getSkinSelectionne().getSkinNom();
 
             switch(direction){
                 case UP:
                     QueuSnake.setTranslateX(snake.get(0).getTranslateX());
                     QueuSnake.setTranslateY(snake.get(0).getTranslateY() - Taille_Bloc);
-                    ((Rectangle)snake.get(0)).setFill(new ImagePattern(new Image("skin_default/vertical.png")));
+                    ((Rectangle)snake.get(0)).setFill(new ImagePattern(new Image(directory+"/vertical.png")));
                     break;
                 case DOWN :
                     QueuSnake.setTranslateX(snake.get(0).getTranslateX());
                     QueuSnake.setTranslateY(snake.get(0).getTranslateY() + Taille_Bloc);
-                    ((Rectangle)snake.get(0)).setFill(new ImagePattern(new Image("skin_default/vertical.png")));
+                    ((Rectangle)snake.get(0)).setFill(new ImagePattern(new Image(directory+"/vertical.png")));
                     break;
                 case LEFT:
                     QueuSnake.setTranslateX(snake.get(0).getTranslateX()- Taille_Bloc);
                     QueuSnake.setTranslateY(snake.get(0).getTranslateY());
-                    ((Rectangle)snake.get(0)).setFill(new ImagePattern(new Image("skin_default/horizontal.png")));
+                    ((Rectangle)snake.get(0)).setFill(new ImagePattern(new Image(directory+"/horizontal.png")));
                     break;
                 case RIGHT :
                     QueuSnake.setTranslateX(snake.get(0).getTranslateX()+ Taille_Bloc);
                     QueuSnake.setTranslateY(snake.get(0).getTranslateY());
-                    ((Rectangle)snake.get(0)).setFill(new ImagePattern(new Image("skin_default/horizontal.png")));
+                    ((Rectangle)snake.get(0)).setFill(new ImagePattern(new Image(directory+"/horizontal.png")));
                     break;
             }
             int dirQueue=0;
@@ -412,7 +421,7 @@ public class SnakeJeu extends Scene {
         mainMenuButton.setScaleY(2);
         mainMenuButton.setOnAction(event -> {
             //mainMenuButton.setVisible(false);
-            Main.getStage().setScene(new MenuPrincipal());
+            Main.getStage().setScene(new MenuPrincipal(modele));
 
 
         });
@@ -615,12 +624,7 @@ public class SnakeJeu extends Scene {
         timeline.pause();
     }
 
-    public void choixDifficultee(){
-        buttonFacile.setVisible(false);
-        buttonMoyen.setVisible(false);
-        buttonDifficile.setVisible(false);
-        timeline.play();
-    }
+
 
 
 

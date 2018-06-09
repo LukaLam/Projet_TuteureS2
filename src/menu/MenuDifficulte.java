@@ -11,6 +11,8 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import jeux.Main;
+import joueur.Joueur;
+import menu.menuModele.Modele;
 import sample.SnakeJeu;
 
 import java.util.ArrayList;
@@ -25,6 +27,7 @@ public class MenuDifficulte extends Scene {
     private double vitesse = 0.15 ;
     private int difficulty = 3;
     SnakeJeu snakeJeu;
+    private Joueur j1;
    /* public MenuDifficulte(Parent root, Button buttonFacile, Button buttonMoyen, Button buttonDifficile, double vitesse) {
         super(root);
         this.buttonFacile = buttonFacile;
@@ -33,12 +36,13 @@ public class MenuDifficulte extends Scene {
         this.vitesse = vitesse;
     }*/
 
-    public MenuDifficulte() {
+    public MenuDifficulte(Modele modele) {
         super(new Group(),800,600);
-        initAttribut();
+        initAttribut(modele);
     }
 
-    public void initAttribut() {
+    public void initAttribut(Modele modele) {
+        this.j1 = j1;
 /*
         snakeJeu = new SnakeJeu(getDifficulty());
 */
@@ -55,7 +59,7 @@ public class MenuDifficulte extends Scene {
             //setDifficulty(1);
             List<Position> lp = new ArrayList<>();
             SnakeJeu.lp= lp ;
-            Main.getStage().setScene(new SnakeJeu(0.20));
+            Main.getStage().setScene(new SnakeJeu(0.20,modele));
 
         });
         buttonMoyen = new Button();
@@ -66,7 +70,7 @@ public class MenuDifficulte extends Scene {
         buttonMoyen.setOnAction(event -> {
             choixDifficultee();
             //setDifficulty(2);
-            SnakeJeu sj = new SnakeJeu(0.15);
+            SnakeJeu sj = new SnakeJeu(0.15,modele);
             //ajout de quelques murs
             /*List<Position> lp = new ArrayList<>();
             List<Rectangle> lr = new ArrayList<>();
@@ -140,7 +144,7 @@ public class MenuDifficulte extends Scene {
 
 
             SnakeJeu.lp= lp ;*/
-            SnakeJeu sj = new SnakeJeu(0.10);
+            SnakeJeu sj = new SnakeJeu(0.10,modele);
 
             Main.getStage().setScene(sj);
 

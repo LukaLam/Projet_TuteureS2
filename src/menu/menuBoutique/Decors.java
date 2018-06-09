@@ -28,4 +28,5 @@ public class Decors extends Item{
         super(titre, chemin, cheminGrand, description, prix);
     }
 
+
 }

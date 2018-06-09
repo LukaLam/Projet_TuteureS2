@@ -5,6 +5,8 @@ import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
+import joueur.Joueur;
+import menu.menuModele.Modele;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +16,9 @@ public class ControlImage extends AnimationTimer
     SnakeJeu jeu;
     int dirTete;
     int dirQueue;
+    Joueur joueur;
+    Modele modele;
+    String skinSnake;
     /*
     1=haut
     2=droite
@@ -22,9 +27,12 @@ public class ControlImage extends AnimationTimer
      */
     List<int[]> coin;
 
-    public ControlImage(SnakeJeu jeu)
+    public ControlImage(SnakeJeu jeu, Modele modele)
     {
+        this.joueur = modele.getJ1();
         this.jeu=jeu;
+        this.modele=modele;
+        skinSnake = modele.getSkinSelectionne().getSkinNom();
         newGame();
     }
 
@@ -50,7 +58,10 @@ public class ControlImage extends AnimationTimer
     {
         for(Node n : jeu.snake)
         {
-            String dir = "./skin_default/";
+          //  joueur.
+           //String dir = "skin_default/";
+            String dir = skinSnake+"/";
+
             if (jeu.snake.indexOf(n)==0)
                 ((Rectangle)n).setFill(new ImagePattern(new Image(dir+"tete"+dirTete+".png")));
             else if (jeu.snake.indexOf(n)==jeu.snake.size()-1)

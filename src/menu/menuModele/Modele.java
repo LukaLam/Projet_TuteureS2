@@ -1,6 +1,7 @@
 package menu.menuModele;
 
 import javafx.scene.paint.Color;
+import joueur.Joueur;
 import menu.MenuPrincipal;
 import menu.menuBoutique.Decors;
 import menu.menuBoutique.Musique;
@@ -12,14 +13,22 @@ public class Modele {
     private Decors decorSelectionne;
     private Skin skinSelectionne;
     private Musique musiqueSelectionee;
+    private Joueur j1;
+
 
     public Modele(){
 
+        j1 = new Joueur(500,0,0);
         Decors.initDecors();
         decorSelectionne = Decors.getListeDecors().get(0);
         Skin.initSkin();
         skinSelectionne = Skin.getListSkins().get(0);
-        menuPrincipal = new MenuPrincipal();
+        menuPrincipal = new MenuPrincipal(this);
+
+    }
+
+    public Joueur getJ1() {
+        return j1;
     }
 
     public Decors getDecorSelectionne() {
