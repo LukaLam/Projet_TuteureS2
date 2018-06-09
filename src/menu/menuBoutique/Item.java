@@ -1,6 +1,6 @@
 package menu.menuBoutique;
 
-abstract class Item {
+public abstract class Item {
     protected String titre;
     protected String chemin;
     protected String cheminGrand;

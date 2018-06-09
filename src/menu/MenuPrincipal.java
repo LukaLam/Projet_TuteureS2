@@ -10,7 +10,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import jeux.Main;
+import joueur.Joueur;
 import menu.menuBoutique.MenuBoutique;
+import menu.menuInventaire.MenuInventaire;
 import sample.SnakeJeu;
 
 import static sample.SnakeJeu.Hauteur;
@@ -23,8 +25,15 @@ public class MenuPrincipal extends Scene {
     Clavier mon_clavier;
     ImageView iv;
 
+    Joueur joueur;
+    MenuBoutique menuBoutique;
+    MenuInventaire menuInventaire;
+
     public MenuPrincipal(){
         super(new Group(),800,600);
+        joueur = new Joueur(500);
+        menuBoutique = new MenuBoutique(joueur);
+        menuInventaire = new MenuInventaire(joueur);
         initAttribut();
         ajouterAddAtribut();
         addMouseEvent();
@@ -34,7 +43,8 @@ public class MenuPrincipal extends Scene {
         son = new Son();
         boutons = new Button[]{
                 new Button("Snake"),
-                new Button("Boutique")
+                new Button("Boutique"),
+                new Button("Inventaire")
         };
 
         image = new Image("file:Background.png");
@@ -69,7 +79,14 @@ public class MenuPrincipal extends Scene {
             @Override
             public void handle(MouseEvent event) {
                 System.out.println("btest");
-                Main.getStage().setScene(new MenuBoutique());
+                Main.getStage().setScene(menuBoutique);
+            }
+        });
+
+        boutons[2].setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Main.getStage().setScene(menuInventaire);
             }
         });
     }

@@ -1,5 +1,8 @@
 package menu.menuBoutique;
 
+import jeux.Main;
+import joueur.Joueur;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -23,41 +26,43 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public class MenuBoutique extends Scene {
-    private Player p1;
+    private Joueur joueur;
 
     private Text texteArgentTotBoutique, texteArgentTotDecors, texteArgentTotMusique, texteArgentTotSkin ;
 
     private Image bouton_play ;
     private Image bouton_stop;
-    Button butDecor;
-    Button butSkins;
-    Button butMusique;
+    Button butDecor, butSkins, butMusique, butMenuPrincipal;
     VBox gp;
     Text annonceBoutique;
     Stage fenBoutiqueDecorTot;
     Group root;
     Scene scene;
     Text annonceBoutDecor;
-    public MenuBoutique() {
+
+    public MenuBoutique(Joueur joueur) {
         super(new Group(),800,600);
+        this.joueur = joueur;
         initAttribut();
         ajouterAddAtribut();
         addMouseEvent();
     }
     public void initAttribut(){
-         p1 = new Player(150);
         bouton_play = new Image("img/musique/bouton_play.png");
         bouton_stop = new Image("img/musique/bouton_stop.png");
-         butDecor = new Button("Décors");
-         butSkins = new Button("Apparence");
-         butMusique = new Button("Musiques");
+
+        butDecor = new Button("Décors");
+        butSkins = new Button("Apparence");
+        butMusique = new Button("Musiques");
+        butMenuPrincipal = new Button("Quitter");
+
         texteArgentTotDecors = new Text();
         texteArgentTotBoutique = new Text();
-         annonceBoutique = new Text(10,50, "Que souhaitez-vous acheter ?");
-        texteArgentTotDecors.setText("Argent : " + p1.getArgent() + " pièces");
+        annonceBoutique = new Text(10,50, "Que souhaitez-vous acheter ?");
+        texteArgentTotDecors.setText("Argent : " + joueur.getArgent() + " pièces");
         //Maj texte argent (boutique)
-        texteArgentTotBoutique.setText("Argent : " + p1.getArgent() + " pièces");
-         gp = new VBox();
+        texteArgentTotBoutique.setText("Argent : " + joueur.getArgent() + " pièces");
+        gp = new VBox();
         Decors.initDecors();
         Musique.initMusique();
         Skin.initSkin();
@@ -79,6 +84,7 @@ public class MenuBoutique extends Scene {
         this.gp.getChildren().add(butDecor);
         this.gp.getChildren().add(butSkins);
         this.gp.getChildren().add(butMusique);
+        this.gp.getChildren().add(butMenuPrincipal);
         this.gp.getChildren().add(texteArgentTotBoutique);
 
         root.getChildren().add(this.gp);
@@ -89,8 +95,13 @@ public class MenuBoutique extends Scene {
     public void addMouseEvent(){
         butDecor.setOnAction(actionEvent -> ouvrirBoutiqueDecors());
         butSkins.setOnAction(actionEvent -> ouvrirBoutiqueSkins());
-        butSkins.setOnAction(actionEvent -> ouvrirBoutiqueSkins());
         butMusique.setOnAction(actionEvent -> ouvrirBoutiqueMusique());
+        butMenuPrincipal.setOnAction(event -> {
+            //mainMenuButton.setVisible(false);
+            Main.getStage().setScene(Main.getModele().getMenuPrincipal());
+
+
+        });
 
     }
 
@@ -99,7 +110,7 @@ public class MenuBoutique extends Scene {
         //FEN ROOT
         fenBoutiqueDecorTot = new Stage();
         root = new Group();
-        scene = new Scene(root, 500, 500, Color.WHITE);
+        scene = new Scene(root, 800, 520, Color.WHITE);
         fenBoutiqueDecorTot.setTitle("Décors");
 
 
@@ -108,7 +119,7 @@ public class MenuBoutique extends Scene {
 
 
         annonceBoutDecor = new Text("Bienvenue dans la boutique de décors.\n Cliquez sur l'image pour l'agrandir.");
-        texteArgentTotDecors = new Text("Argent : " + p1.getArgent() + " pièces");
+        texteArgentTotDecors = new Text("Argent : " + joueur.getArgent() + " pièces");
         annonceBoutDecor.setTextAlignment(TextAlignment.CENTER);
         texteArgentTotDecors.setTextAlignment(TextAlignment.CENTER);
 
@@ -121,68 +132,72 @@ public class MenuBoutique extends Scene {
 
         //Parcours de la liste des décors pour ajouter à une box tous les éléments
         ArrayList<VBox> listeVBoxDecors = new ArrayList<VBox>();
+        int compteur = 0;
         for (Decors elementDecors:Decors.getListeDecors()) {
-            VBox decorBox = new VBox();
+            if(compteur > 0) {
+                VBox decorBox = new VBox();
 
-            decorBox.getChildren().add(new Text(elementDecors.getTitre()));
-            ImageView imageDecorView = new ImageView(new Image(elementDecors.getChemin()));
-            decorBox.getChildren().add(imageDecorView);
-            imageDecorView.setOnMouseClicked(mouseEvent -> {
-                Stage fenDecorGrand = new Stage();
-                Group rootDecorGrand = new Group();
-                Scene sceneDecorGrand = new Scene(rootDecorGrand, 800,800);
-                fenDecorGrand.setTitle(elementDecors.getTitre());
-                rootDecorGrand.getChildren().add(new ImageView(new Image(elementDecors.getCheminGrand())));
-                fenDecorGrand.setScene(sceneDecorGrand);
-                fenDecorGrand.showAndWait();
+                decorBox.getChildren().add(new Text(elementDecors.getTitre()));
+                ImageView imageDecorView = new ImageView(new Image(elementDecors.getChemin()));
+                decorBox.getChildren().add(imageDecorView);
+                imageDecorView.setOnMouseClicked(mouseEvent -> {
+                    Stage fenDecorGrand = new Stage();
+                    Group rootDecorGrand = new Group();
+                    Scene sceneDecorGrand = new Scene(rootDecorGrand, 1280, 720);
+                    fenDecorGrand.setTitle(elementDecors.getTitre());
+                    rootDecorGrand.getChildren().add(new ImageView(new Image(elementDecors.getCheminGrand())));
+                    fenDecorGrand.setScene(sceneDecorGrand);
+                    fenDecorGrand.showAndWait();
 
-            });
-            decorBox.getChildren().add(new Text(elementDecors.getDescription()));
-            decorBox.getChildren().add(new Text(String.valueOf(elementDecors.getPrix()) + " pièces"));
-
-            if(!p1.possedeObjet(elementDecors)) {
-                Button butAcheter = new Button("Acheter");
-                decorBox.getChildren().add(butAcheter);
-                butAcheter.setOnAction(actionEvent -> {
-                    Alert achatAlerte = new Alert(Alert.AlertType.CONFIRMATION);
-                    achatAlerte.setTitle("Confirmation d'achat");
-                    achatAlerte.setHeaderText(null);
-                    achatAlerte.setContentText("Voulez-vous effectuer cet achat ?");
-                    Optional<ButtonType> choix = achatAlerte.showAndWait();
-
-                    if(choix.get() == ButtonType.OK){
-                        if (p1.getArgent() >= elementDecors.getPrix()){
-
-                            Alert achatEffectue = new Alert(Alert.AlertType.INFORMATION);
-                            achatEffectue.setTitle("Achat effectué");
-                            achatEffectue.setHeaderText(null);
-                            achatEffectue.setContentText("Merci pour votre achat !");
-                            p1.acheterObjet(elementDecors);
-                            //Maj texte argent (décors)
-                            texteArgentTotDecors.setText("Argent : " + p1.getArgent() + " pièces");
-                            //Maj texte argent (boutique)
-                            texteArgentTotBoutique.setText("Argent : " + p1.getArgent() + " pièces");
-
-                            //Suppression du bouton Acheter pour mettre un texte
-                            decorBox.getChildren().remove(butAcheter);
-                            decorBox.getChildren().add(new Text("Acheté !"));
-
-                            achatEffectue.showAndWait();
-
-                            //Message d'erreur si pas assez d'argent
-                        } else if(p1.getArgent() < elementDecors.getPrix()){
-                            Alert achatRefuse = new Alert(Alert.AlertType.ERROR);
-                            achatRefuse.setTitle("Achat refusé");
-                            achatRefuse.setHeaderText(null);
-                            achatRefuse.setContentText("Vous n'avez pas assez de pièces.");
-                            achatRefuse.showAndWait();
-                        }
-                    }
                 });
-            } else {
-                decorBox.getChildren().add(new Text("Acheté !"));
+                decorBox.getChildren().add(new Text(elementDecors.getDescription()));
+                decorBox.getChildren().add(new Text(String.valueOf(elementDecors.getPrix()) + " pièces"));
+
+                if (!joueur.possedeObjet(elementDecors)) {
+                    Button butAcheter = new Button("Acheter");
+                    decorBox.getChildren().add(butAcheter);
+                    butAcheter.setOnAction(actionEvent -> {
+                        Alert achatAlerte = new Alert(Alert.AlertType.CONFIRMATION);
+                        achatAlerte.setTitle("Confirmation d'achat");
+                        achatAlerte.setHeaderText(null);
+                        achatAlerte.setContentText("Voulez-vous effectuer cet achat ?");
+                        Optional<ButtonType> choix = achatAlerte.showAndWait();
+
+                        if (choix.get() == ButtonType.OK) {
+                            if (joueur.getArgent() >= elementDecors.getPrix()) {
+
+                                Alert achatEffectue = new Alert(Alert.AlertType.INFORMATION);
+                                achatEffectue.setTitle("Achat effectué");
+                                achatEffectue.setHeaderText(null);
+                                achatEffectue.setContentText("Merci pour votre achat !");
+                                joueur.acheterObjet(elementDecors);
+                                //Maj texte argent (décors)
+                                texteArgentTotDecors.setText("Argent : " + joueur.getArgent() + " pièces");
+                                //Maj texte argent (boutique)
+                                texteArgentTotBoutique.setText("Argent : " + joueur.getArgent() + " pièces");
+
+                                //Suppression du bouton Acheter pour mettre un texte
+                                decorBox.getChildren().remove(butAcheter);
+                                decorBox.getChildren().add(new Text("Acheté !"));
+
+                                achatEffectue.showAndWait();
+
+                                //Message d'erreur si pas assez d'argent
+                            } else if (joueur.getArgent() < elementDecors.getPrix()) {
+                                Alert achatRefuse = new Alert(Alert.AlertType.ERROR);
+                                achatRefuse.setTitle("Achat refusé");
+                                achatRefuse.setHeaderText(null);
+                                achatRefuse.setContentText("Vous n'avez pas assez de pièces.");
+                                achatRefuse.showAndWait();
+                            }
+                        }
+                    });
+                } else {
+                    decorBox.getChildren().add(new Text("Acheté !"));
+                }
+                listeVBoxDecors.add(decorBox);
             }
-            listeVBoxDecors.add(decorBox);
+            compteur++;
         }
 
         //Parcours de la liste box décors pour les ajouter au gridpane
@@ -224,7 +239,7 @@ public class MenuBoutique extends Scene {
 
 
         Text annonceBoutSkin = new Text("Bienvenue dans la boutique d'apparence.\n Cliquez sur l'image pour l'agrandir.");
-        texteArgentTotSkin = new Text("Argent : " + p1.getArgent() + " pièces");
+        texteArgentTotSkin = new Text("Argent : " + joueur.getArgent() + " pièces");
         annonceBoutSkin.setTextAlignment(TextAlignment.CENTER);
         texteArgentTotSkin.setTextAlignment(TextAlignment.CENTER);
 
@@ -237,68 +252,72 @@ public class MenuBoutique extends Scene {
 
         //Parcours de la liste des décors pour ajouter à une box tous les éléments
         ArrayList<VBox> listeVBoxSkins = new ArrayList<VBox>();
+        int compteur = 0;
         for (Skin elementSkin:Skin.getListSkins()) {
-            VBox skinBox = new VBox();
+            if (compteur > 0) {
+                VBox skinBox = new VBox();
 
-            skinBox.getChildren().add(new Text(elementSkin.getTitre()));
-            ImageView imageDecorView = new ImageView(new Image(elementSkin.getChemin()));
-            skinBox.getChildren().add(imageDecorView);
-            imageDecorView.setOnMouseClicked(mouseEvent -> {
-                Stage fenSkinGrand = new Stage();
-                Group rootSkinGrand = new Group();
-                Scene sceneSkinGrand = new Scene(rootSkinGrand, 800,800);
-                fenSkinGrand.setTitle(elementSkin.getTitre());
-                rootSkinGrand.getChildren().add(new ImageView(new Image(elementSkin.getCheminGrand())));
-                fenSkinGrand.setScene(sceneSkinGrand);
-                fenSkinGrand.showAndWait();
+                skinBox.getChildren().add(new Text(elementSkin.getTitre()));
+                ImageView imageDecorView = new ImageView(new Image(elementSkin.getChemin()));
+                skinBox.getChildren().add(imageDecorView);
+                imageDecorView.setOnMouseClicked(mouseEvent -> {
+                    Stage fenSkinGrand = new Stage();
+                    Group rootSkinGrand = new Group();
+                    Scene sceneSkinGrand = new Scene(rootSkinGrand, 190, 63);
+                    fenSkinGrand.setTitle(elementSkin.getTitre());
+                    rootSkinGrand.getChildren().add(new ImageView(new Image(elementSkin.getCheminGrand())));
+                    fenSkinGrand.setScene(sceneSkinGrand);
+                    fenSkinGrand.showAndWait();
 
-            });
-            skinBox.getChildren().add(new Text(elementSkin.getDescription()));
-            skinBox.getChildren().add(new Text(String.valueOf(elementSkin.getPrix()) + " pièces"));
-
-            if(!p1.possedeObjet(elementSkin)) {
-                Button butAcheter = new Button("Acheter");
-                skinBox.getChildren().add(butAcheter);
-                butAcheter.setOnAction(actionEvent -> {
-                    Alert achatAlerte = new Alert(Alert.AlertType.CONFIRMATION);
-                    achatAlerte.setTitle("Confirmation d'achat");
-                    achatAlerte.setHeaderText(null);
-                    achatAlerte.setContentText("Voulez-vous effectuer cet achat ?");
-                    Optional<ButtonType> choix = achatAlerte.showAndWait();
-
-                    if(choix.get() == ButtonType.OK){
-                        if (p1.getArgent() >= elementSkin.getPrix()){
-
-                            Alert achatEffectue = new Alert(Alert.AlertType.INFORMATION);
-                            achatEffectue.setTitle("Achat effectué");
-                            achatEffectue.setHeaderText(null);
-                            achatEffectue.setContentText("Merci pour votre achat !");
-                            p1.acheterObjet(elementSkin);
-                            //Maj texte argent (skins)
-                            texteArgentTotSkin.setText("Argent : " + p1.getArgent() + " pièces");
-                            //Maj texte argent (boutique)
-                            texteArgentTotBoutique.setText("Argent : " + p1.getArgent() + " pièces");
-
-                            //Suppression du bouton Acheter pour mettre un texte
-                            skinBox.getChildren().remove(butAcheter);
-                            skinBox.getChildren().add(new Text("Acheté !"));
-
-                            achatEffectue.showAndWait();
-
-                            //Message d'erreur si pas assez d'argent
-                        } else if(p1.getArgent() < elementSkin.getPrix()){
-                            Alert achatRefuse = new Alert(Alert.AlertType.ERROR);
-                            achatRefuse.setTitle("Achat refusé");
-                            achatRefuse.setHeaderText(null);
-                            achatRefuse.setContentText("Vous n'avez pas assez de pièces.");
-                            achatRefuse.showAndWait();
-                        }
-                    }
                 });
-            } else {
-                skinBox.getChildren().add(new Text("Acheté !"));
+                skinBox.getChildren().add(new Text(elementSkin.getDescription()));
+                skinBox.getChildren().add(new Text(String.valueOf(elementSkin.getPrix()) + " pièces"));
+
+                if (!joueur.possedeObjet(elementSkin)) {
+                    Button butAcheter = new Button("Acheter");
+                    skinBox.getChildren().add(butAcheter);
+                    butAcheter.setOnAction(actionEvent -> {
+                        Alert achatAlerte = new Alert(Alert.AlertType.CONFIRMATION);
+                        achatAlerte.setTitle("Confirmation d'achat");
+                        achatAlerte.setHeaderText(null);
+                        achatAlerte.setContentText("Voulez-vous effectuer cet achat ?");
+                        Optional<ButtonType> choix = achatAlerte.showAndWait();
+
+                        if (choix.get() == ButtonType.OK) {
+                            if (joueur.getArgent() >= elementSkin.getPrix()) {
+
+                                Alert achatEffectue = new Alert(Alert.AlertType.INFORMATION);
+                                achatEffectue.setTitle("Achat effectué");
+                                achatEffectue.setHeaderText(null);
+                                achatEffectue.setContentText("Merci pour votre achat !");
+                                joueur.acheterObjet(elementSkin);
+                                //Maj texte argent (skins)
+                                texteArgentTotSkin.setText("Argent : " + joueur.getArgent() + " pièces");
+                                //Maj texte argent (boutique)
+                                texteArgentTotBoutique.setText("Argent : " + joueur.getArgent() + " pièces");
+
+                                //Suppression du bouton Acheter pour mettre un texte
+                                skinBox.getChildren().remove(butAcheter);
+                                skinBox.getChildren().add(new Text("Acheté !"));
+
+                                achatEffectue.showAndWait();
+
+                                //Message d'erreur si pas assez d'argent
+                            } else if (joueur.getArgent() < elementSkin.getPrix()) {
+                                Alert achatRefuse = new Alert(Alert.AlertType.ERROR);
+                                achatRefuse.setTitle("Achat refusé");
+                                achatRefuse.setHeaderText(null);
+                                achatRefuse.setContentText("Vous n'avez pas assez de pièces.");
+                                achatRefuse.showAndWait();
+                            }
+                        }
+                    });
+                } else {
+                    skinBox.getChildren().add(new Text("Acheté !"));
+                }
+                listeVBoxSkins.add(skinBox);
             }
-            listeVBoxSkins.add(skinBox);
+            compteur++;
         }
 
         //Parcours de la liste box décors pour les ajouter au gridpane
@@ -331,7 +350,7 @@ public class MenuBoutique extends Scene {
         //FEN ROOT
         Stage fenBoutiqueMusiqueTot = new Stage();
         Group root = new Group();
-        Scene scene = new Scene(root, 500, 500, Color.WHITE);
+        Scene scene = new Scene(root, 600, 500, Color.WHITE);
         fenBoutiqueMusiqueTot.setTitle("Musiques");
 
 
@@ -340,7 +359,7 @@ public class MenuBoutique extends Scene {
 
 
         Text annonceBoutMusique = new Text("Bienvenue dans la boutique de musiques.\n Cliquez sur le bouton play pour jouer la musique.");
-        texteArgentTotMusique = new Text("Argent : " + p1.getArgent() + " pièces");
+        texteArgentTotMusique = new Text("Argent : " + joueur.getArgent() + " pièces");
         annonceBoutMusique.setTextAlignment(TextAlignment.CENTER);
         texteArgentTotMusique.setTextAlignment(TextAlignment.CENTER);
 
@@ -395,7 +414,7 @@ public class MenuBoutique extends Scene {
             musiqueBox.getChildren().add(new Text(elementMusiques.getDescription()));
             musiqueBox.getChildren().add(new Text(String.valueOf(elementMusiques.getPrix()) + " pièces"));
 
-            if(!p1.possedeObjet(elementMusiques)) {
+            if(!joueur.possedeObjet(elementMusiques)) {
                 Button butAcheter = new Button("Acheter");
                 musiqueBox.getChildren().add(butAcheter);
                 butAcheter.setOnAction(actionEvent -> {
@@ -406,17 +425,17 @@ public class MenuBoutique extends Scene {
                     Optional<ButtonType> choix = achatAlerte.showAndWait();
 
                     if(choix.get() == ButtonType.OK){
-                        if (p1.getArgent() >= elementMusiques.getPrix()){
+                        if (joueur.getArgent() >= elementMusiques.getPrix()){
 
                             Alert achatEffectue = new Alert(Alert.AlertType.INFORMATION);
                             achatEffectue.setTitle("Achat effectué");
                             achatEffectue.setHeaderText(null);
                             achatEffectue.setContentText("Merci pour votre achat !");
-                            p1.acheterObjet(elementMusiques);
+                            joueur.acheterObjet(elementMusiques);
                             //Maj texte argent (décors)
-                            texteArgentTotMusique.setText("Argent : " + p1.getArgent() + " pièces");
+                            texteArgentTotMusique.setText("Argent : " + joueur.getArgent() + " pièces");
                             //Maj texte argent (boutique)
-                            texteArgentTotBoutique.setText("Argent : " + p1.getArgent() + " pièces");
+                            texteArgentTotBoutique.setText("Argent : " + joueur.getArgent() + " pièces");
 
                             //Suppression du bouton Acheter pour mettre un texte
                             musiqueBox.getChildren().remove(butAcheter);
@@ -425,7 +444,7 @@ public class MenuBoutique extends Scene {
                             achatEffectue.showAndWait();
 
                             //Message d'erreur si pas assez d'argent
-                        } else if(p1.getArgent() < elementMusiques.getPrix()){
+                        } else if(joueur.getArgent() < elementMusiques.getPrix()){
                             Alert achatRefuse = new Alert(Alert.AlertType.ERROR);
                             achatRefuse.setTitle("Achat refusé");
                             achatRefuse.setHeaderText(null);
