@@ -28,6 +28,7 @@ public class MenuPrincipal extends Scene {
         initAttribut();
         ajouterAddAtribut();
         addMouseEvent();
+
     }
     public void initAttribut(){
         son = new Son();

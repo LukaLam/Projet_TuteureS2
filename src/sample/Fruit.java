@@ -35,10 +35,9 @@ public enum Fruit {
         Random r = new Random();
         int valeurAleatoire = r.nextInt(5);
 
-
         return Fruit.values()[valeurAleatoire];
     }
 
-
+// fin test
 }
 

@@ -19,6 +19,10 @@ import javafx.util.Duration;
 import jeux.Main;
 import menu.MenuPrincipal;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,17 +51,27 @@ public class SnakeJeu extends Scene {
     private Button gameOverButton;
     private Label gameOverText;
     private Label scoreLabel;
+    private Label highScoreLabel;
 
     private Button mainMenuButton;
 
     private Timeline timeline = new Timeline();
     public ObservableList<Node> snake;
     private Joueur joueur = new Joueur(200,0,0);
+
+    private int highScore = 0;
     private int scoreTemporaire=0;
+
     private Fruit fruitEnum;
     private Rectangle fruit;
    // Scene scene;
    private ControlImage controlImage;
+
+    FileReader fileReader;
+    String fichierScore;
+    FileWriter fileWriter;
+    BufferedWriter bufferedWriter;
+    BufferedReader bufferedReader;
 
     public SnakeJeu(double frame) {
         super(new Group(),800,600);
@@ -76,6 +90,17 @@ public class SnakeJeu extends Scene {
 
         controlImage = new ControlImage(this);
         controlImage.start();
+
+        try {
+            fichierScore = "./resources/scores/scores.txt";
+            fileReader = new FileReader(fichierScore);
+            bufferedReader = new BufferedReader(fileReader);
+            highScore = Integer.parseInt(bufferedReader.readLine());
+
+        }catch (Exception e){
+            System.out.println("erreur lecture fichier");
+        }
+
 
 
          fruit = new Rectangle(
@@ -346,24 +371,34 @@ public class SnakeJeu extends Scene {
         gameOverText = new Label("Game Over ! essaye encore !");
         gameOverText.setTextFill(Color.CADETBLUE);
         gameOverText.setLayoutX(350);
-        gameOverText.setLayoutY(200);
-        gameOverText.setScaleX(3);
-        gameOverText.setScaleY(3);
+        gameOverText.setLayoutY(50);
+        gameOverText.setScaleX(4);
+        gameOverText.setScaleY(4);
 
         scoreLabel = new Label();
         scoreLabel.setText("score : "+ scoreTemporaire);
         scoreLabel.setTextFill(Color.DARKRED);
-        scoreLabel.setLayoutX(360);
-        scoreLabel.setLayoutY(250);
+        scoreLabel.setLayoutX(350);
+        scoreLabel.setLayoutY(140);
         scoreLabel.setScaleX(2);
         scoreLabel.setScaleY(2);
 
+        highScoreLabel = new Label("le meilleur score est : "+highScore);
+        highScoreLabel.setTextFill(Color.DARKRED);
+        highScoreLabel.setLayoutX(350);
+        highScoreLabel.setLayoutY(180);
+        highScoreLabel.setScaleX(1.5);
+        highScoreLabel.setScaleY(1.5);
+
         gameOverButton = new Button();
         gameOverButton.setText("Restart the game");
-        gameOverButton.setLayoutX(350);
+        gameOverButton.setLayoutX(300);
         gameOverButton.setLayoutY(Hauteur /2);
+        gameOverButton.setScaleX(2);
+        gameOverButton.setScaleY(2);
         gameOverButton.setOnAction(event -> {
             restartGame();
+            highScoreLabel.setVisible(false);
             mainMenuButton.setVisible(false);
             gameOverButton.setVisible(false);
             scoreLabel.setVisible(false);
@@ -371,8 +406,10 @@ public class SnakeJeu extends Scene {
         });
         mainMenuButton = new Button();
         mainMenuButton.setText("Retour au menu principal");
-        mainMenuButton.setLayoutX(350);
-        mainMenuButton.setLayoutY(Hauteur /2+40);
+        mainMenuButton.setLayoutX(300);
+        mainMenuButton.setLayoutY(Hauteur /2+80);
+        mainMenuButton.setScaleX(2);
+        mainMenuButton.setScaleY(2);
         mainMenuButton.setOnAction(event -> {
             //mainMenuButton.setVisible(false);
             Main.getStage().setScene(new MenuPrincipal());
@@ -398,13 +435,13 @@ public class SnakeJeu extends Scene {
         buttonFacile.setVisible(true);
         buttonMoyen.setVisible(true);
         buttonDifficile.setVisible(true);*/
-
+        highScoreLabel.setVisible(false);
         mainMenuButton.setVisible(false);
         scoreLabel.setVisible(false);
         gameOverText.setVisible(false);
         gameOverButton.setVisible(false);
         resumeButton.setVisible(false);
-        root.getChildren().addAll(fruit,snakeBody,resumeButton,gameOverButton,gameOverText,scoreLabel,mainMenuButton);
+        root.getChildren().addAll(fruit,snakeBody,resumeButton,gameOverButton,gameOverText,scoreLabel,mainMenuButton,highScoreLabel);
         return root;
     }
     public void addKeyboardEvent() {
@@ -555,8 +592,23 @@ public class SnakeJeu extends Scene {
         canPause = true;
     }
     public void gameOver(){
+        if (scoreTemporaire > highScore) {
+            try {
+                fileWriter = new FileWriter(fichierScore);
+                bufferedWriter = new BufferedWriter(fileWriter);
+                bufferedWriter.write(scoreTemporaire + "\n");
+                bufferedWriter.close();
+                highScore = scoreTemporaire;
+                highScoreLabel.setText("Bravo ! Tu a marqué un nouveau meilleur score : "+highScore);
+            } catch (Exception e) {
+                System.out.println("erreur d'ecriture");
+            }
+        }else{
+            highScoreLabel.setText("highscore : "+highScore);
+        }
         scoreLabel.setText("score : "+ scoreTemporaire);
         gameOverText.setVisible(true);
+        highScoreLabel.setVisible(true);
         scoreLabel.setVisible(true);
         gameOverButton.setVisible(true);
         mainMenuButton.setVisible(true);
