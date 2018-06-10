@@ -23,4 +23,6 @@ public class Mur extends ElementGrille {
     public void setMur(List<Position> mur) {
         this.mur = mur;
     }
+
+
 }
