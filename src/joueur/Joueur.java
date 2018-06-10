@@ -24,12 +24,12 @@ public class Joueur implements Serializable {
         this.scoreJoueur = scoreJoueur;
         this.meilleureScore = meilleureScore;
 
-     /*   Decors.initDecors();
-       Skin.initSkin();
+        Decors.initDecors();
+        Skin.initSkin();
         inventaire.add(Decors.getListeDecors().get(0));
         inventaire.add(Skin.getListSkins().get(0));
         Decors.supprDecors();
-       Skin.supprSkin();*/
+        Skin.supprSkin();
 
     }
 

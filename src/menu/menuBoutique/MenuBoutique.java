@@ -41,7 +41,8 @@ public class MenuBoutique extends Scene {
     Text annonceBoutDecor;
 
     public MenuBoutique(Joueur joueur) {
-        super(new Group(),800,600);
+        //super(new Group(),800,600);
+        super(new Group(), 250, 300);
         this.joueur = joueur;
         initAttribut();
         ajouterAddAtribut();

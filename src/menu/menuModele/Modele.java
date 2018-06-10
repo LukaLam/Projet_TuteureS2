@@ -29,8 +29,10 @@ public class Modele {
         j1 = new Joueur(500,0,0);
         Decors.initDecors();
         decorSelectionne = Decors.getListeDecors().get(0);
+        Decors.supprDecors();
         Skin.initSkin();
         skinSelectionne = Skin.getListSkins().get(0);
+        Skin.supprSkin();
         musiqueSelectionee= null;
         menuPrincipal = new MenuPrincipal(this);
 

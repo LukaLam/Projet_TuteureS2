@@ -93,6 +93,10 @@ public class MenuDifficulte extends Scene {
         buttonMoyen.setOnAction(event -> {
             choixDifficultee();
             //setDifficulty(2);
+            if(modele.getMusiqueSelectionee() !=null) {
+                modele.attribuerMusic();
+            }
+
             if (modele.test == true){
                 modele.player.play();
                 modele.player.setAutoPlay(true);
@@ -171,6 +175,10 @@ public class MenuDifficulte extends Scene {
 
 
             SnakeJeu.lp= lp ;*/
+            if(modele.getMusiqueSelectionee() !=null) {
+                modele.attribuerMusic();
+            }
+
             if (modele.test == true){
                 modele.player.play();
                 modele.player.setAutoPlay(true);

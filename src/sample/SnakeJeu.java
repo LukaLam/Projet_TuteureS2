@@ -428,10 +428,8 @@ public class SnakeJeu extends Scene {
                 modele.player.setAutoPlay(false);
             }*/
            if(modele.test) {
-               System.out.println(modele.player.getStatus());
                String status =modele.player.getStatus().toString();
                if (status.equals("PLAYING")) {
-                   System.out.println("BITE");
                    modele.player.stop();
                    modele.test = false;
                }

@@ -1,5 +1,6 @@
 package menu.menuInventaire;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -37,8 +38,8 @@ public class MenuInventaire extends Scene {
     Image bouton_play, bouton_stop;
 
     public MenuInventaire(Joueur joueur){
-        super(new Group(), 800, 800);
-
+        //super(new Group(), 800, 800);
+        super(new Group(), 550, 250);
         this.joueur = joueur;
 
         initAttribut();
@@ -51,7 +52,7 @@ public class MenuInventaire extends Scene {
         bouton_play = new Image("img/musique/bouton_play.png");
         bouton_stop = new Image("img/musique/bouton_stop.png");
 
-        annonceInventaire = new Text(50,100,"Voici votre inventaire. Vous y trouverez tous les objets que vous avez acheté dans la boutique.");
+        annonceInventaire = new Text(50,100,"Voici votre inventaire.\nVous y trouverez tous les objets que vous avez acheté dans la boutique.");
         butInventaireDecor = new Button("Vos décors");
         butInventaireSkin = new Button("Vos modifications d'apparence");
         butInventaireMusique = new Button("Vos musiques");
@@ -62,6 +63,10 @@ public class MenuInventaire extends Scene {
 
     public void ajouterAddAttribut(){
         root = (Group)this.getRoot();
+
+        container.setPadding(new Insets(10,40,40,30));
+        container.setSpacing(20);
+        container.setAlignment(Pos.CENTER);
 
         container.getChildren().add(annonceInventaire);
         container.getChildren().add(butInventaireDecor);
