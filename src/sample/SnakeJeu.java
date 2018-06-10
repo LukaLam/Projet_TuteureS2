@@ -322,6 +322,7 @@ public class SnakeJeu extends Scene {
         if(difficulte == 0.15){
             //List<Position> lpN = new ArrayList<>();
             List<Rectangle> lr = new ArrayList<>();
+            lp = new ArrayList<>();
             lp.add(new Position(360,160));
             lp.add(new Position(360,200));
             lp.add(new Position(360,240));
@@ -342,6 +343,7 @@ public class SnakeJeu extends Scene {
 
         }else if(difficulte == 0.10){
             List<Rectangle> lr = new ArrayList<>();
+            lp = new ArrayList<>();
             //ajout de quelques murs
             lp.add(new Position(400,480));
             lp.add(new Position(400,520));
